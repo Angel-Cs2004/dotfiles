@@ -1,0 +1,17 @@
+* {
+  font-family: Arial, "Font Awesome 6 Free";
+  font-size: 13px;
+}
+
+window#waybar {
+  background: rgba(20, 20, 20, 0.85);
+  color: #ffffff;
+}
+
+#workspaces button.active {
+  border-bottom: 2px solid #ffffff;
+}
+
+#clock {
+  background: red;
+}

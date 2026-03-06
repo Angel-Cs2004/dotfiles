@@ -1,0 +1,24 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 34,
+
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["clock"],
+  "modules-right": ["pulseaudio", "network", "cpu", "memory", "tray", "battery"]
+}
+
+"clock": {
+  "format": "{:%H:%M}",
+  "tooltip-format": "{:%Y-%m-%d %H:%M:%S}",
+  "interval": 60
+}
+
+"pulseaudio": {
+  "format": "{icon} {volume}%",
+  "format-muted": " muted",
+  "format-icons": {
+    "default": ["", "", ""]
+  },
+  "on-click": "pavucontrol"
+}
