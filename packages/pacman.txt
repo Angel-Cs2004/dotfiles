@@ -41,7 +41,6 @@ sddm
 slurp
 smartmontools
 sof-firmware
-spotify
 spotify-launcher
 sudo
 swww
@@ -51,7 +50,6 @@ unzip
 uwsm
 vim
 waybar
-waypaper
 wget
 wireless_tools
 wireplumber
@@ -62,9 +60,6 @@ xdg-desktop-portal-hyprland
 xdg-utils
 xorg-server
 xorg-xinit
-yay
-yay-debug
 yazi
 zram-generator
 zsh
-zsh-theme-powerlevel10k-git
