@@ -41,7 +41,10 @@ sddm
 slurp
 smartmontools
 sof-firmware
+<<<<<<< HEAD
 spotify-launcher
+=======
+>>>>>>> 6a9ffdc (solucion a zsh y p10k)
 sudo
 swww
 ttf-jetbrains-mono
@@ -63,3 +66,7 @@ xorg-xinit
 yazi
 zram-generator
 zsh
+<<<<<<< HEAD
+=======
+curl
+>>>>>>> 6a9ffdc (solucion a zsh y p10k)

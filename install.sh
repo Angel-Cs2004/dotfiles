@@ -1,35 +1,74 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
-DOTFILES="$HOME/dotfiles"
+DOTFILES_DIR="$HOME/dotfiles"
+PACMAN_FILE="$DOTFILES_DIR/packages/pacman.txt"
+AUR_FILE="$DOTFILES_DIR/packages/aur.txt"
 
-echo "Instalando paquetes oficiales..."
+echo "==> Instalando paquetes oficiales..."
 
-sudo pacman -Syu --needed - < "$DOTFILES/packages/pacman.txt"
+mapfile -t pacman_packages < "$PACMAN_FILE"
 
-echo "Instalando yay (AUR helper)..."
-
-if ! command -v yay &> /dev/null
-then
-    git clone https://aur.archlinux.org/yay.git
-    cd yay
-    makepkg -si --noconfirm
-    cd ..
-    rm -rf yay
+if [ "${#pacman_packages[@]}" -gt 0 ]; then
+    sudo pacman -Syu --needed "${pacman_packages[@]}"
 fi
 
-echo "Instalando paquetes AUR..."
+echo "==> Instalando yay..."
 
-yay -S --needed - < "$DOTFILES/packages/aur.txt"
+if ! command -v yay >/dev/null 2>&1; then
+    tmp_dir="$(mktemp -d)"
+    git clone https://aur.archlinux.org/yay.git "$tmp_dir/yay"
+    cd "$tmp_dir/yay"
+    makepkg -si --noconfirm
+    cd "$DOTFILES_DIR"
+    rm -rf "$tmp_dir"
+fi
 
-echo "Copiando configuraciones..."
+echo "==> Instalando paquetes AUR..."
 
-mkdir -p ~/.config
-cp -r "$DOTFILES/config/"* ~/.config/
+if [ -f "$AUR_FILE" ] && [ -s "$AUR_FILE" ]; then
+    mapfile -t aur_packages < "$AUR_FILE"
 
-echo "Copiando archivos home..."
+    if [ "${#aur_packages[@]}" -gt 0 ]; then
+        yay -S --needed "${aur_packages[@]}"
+    fi
+fi
 
-cp "$DOTFILES/home/.bashrc" ~/
+echo "==> Instalando oh-my-zsh..."
 
-echo "Instalación completa."
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+echo "==> Instalando plugins y tema de oh-my-zsh..."
+
+ZSH_CUSTOM_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+if [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-autosuggestions" ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM_DIR/plugins/zsh-autosuggestions"
+fi
+
+if [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting" ]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting"
+fi
+
+if [ ! -d "$ZSH_CUSTOM_DIR/themes/powerlevel10k" ]; then
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM_DIR/themes/powerlevel10k"
+fi
+
+echo "==> Copiando configuraciones..."
+
+mkdir -p "$HOME/.config"
+cp -r "$DOTFILES_DIR/config/." "$HOME/.config/"
+
+echo "==> Copiando archivos del home..."
+
+for file in "$DOTFILES_DIR"/home/.[!.]* "$DOTFILES_DIR"/home/..?*; do
+    [ -e "$file" ] || continue
+    cp "$file" "$HOME/"
+done
+
+echo "==> Instalación completa."
+echo "==> Si usas zsh como shell principal, ejecuta: chsh -s /bin/zsh"
+echo "==> Luego reinicia sesión."
