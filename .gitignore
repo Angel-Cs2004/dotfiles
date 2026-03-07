@@ -1,8 +1,36 @@
-.cache
-.local
+# basura general
+.cache/
+.local/
 *.log
 *.tmp
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+*.db-shm
+*.db-wal
+*.wal
+*.lock
+
+# secretos
 .env
 .env.*
-node_modules
-__pycache__
+*.key
+*.pem
+*.secret
+*.token
+
+# navegadores / sesiones / runtime
+config/mozilla/
+config/pulse/
+config/session/
+config/chromium/
+config/google-chrome/
+config/discord/
+config/Code/Cache/
+config/Code/CachedData/
+config/Code/User/workspaceStorage/
+
+# si no quieres datos pesados de apps
+config/spotify/
+config/TelegramDesktop/

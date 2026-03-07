@@ -2,6 +2,9 @@ base
 base-devel
 bluez
 bluez-utils
+cups
+cups-pk-helper
+dbeaver
 dkms
 dolphin
 dunst
@@ -28,6 +31,7 @@ network-manager-applet
 networkmanager
 nodejs
 npm
+ntfs-3g
 nvidia-open-dkms
 os-prober
 pipewire
@@ -35,24 +39,23 @@ pipewire-alsa
 pipewire-jack
 pipewire-pulse
 polkit-kde-agent
+postgresql
 qt5-wayland
 qt6-wayland
 sddm
 slurp
 smartmontools
 sof-firmware
-<<<<<<< HEAD
-spotify-launcher
-=======
->>>>>>> 6a9ffdc (solucion a zsh y p10k)
 sudo
 swww
+system-config-printer
 ttf-jetbrains-mono
 ttf-jetbrains-mono-nerd
 unzip
 uwsm
 vim
 waybar
+waypaper
 wget
 wireless_tools
 wireplumber
@@ -63,10 +66,9 @@ xdg-desktop-portal-hyprland
 xdg-utils
 xorg-server
 xorg-xinit
+yay
+yay-debug
 yazi
 zram-generator
 zsh
-<<<<<<< HEAD
-=======
-curl
->>>>>>> 6a9ffdc (solucion a zsh y p10k)
+zsh-theme-powerlevel10k-git

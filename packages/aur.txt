@@ -1,2 +1,7 @@
+python-imageio-ffmpeg
+python-screeninfo
 waypaper
+yay
+yay-debug
 zsh-theme-powerlevel10k-git
+zsh-theme-powerlevel10k-git-debug
