@@ -24,7 +24,7 @@ typeset -g POWERLEVEL9K_USER_FOREGROUND=255
 typeset -g POWERLEVEL9K_DIR_FOREGROUND=255
 typeset -g POWERLEVEL9K_VCS_FOREGROUND=255
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
+typeset -g POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 # This section is for Powerlevel9k theme.
 
 POWERLEVEL9K_MODE="nerdfont-complete"

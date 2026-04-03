@@ -1,3 +1,5 @@
 [user]
 	email = angeloquispesuarez@gmail.com
 	name = yizens
+[credential]
+	helper = store

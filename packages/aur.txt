@@ -1,7 +1,12 @@
-python-imageio-ffmpeg
-python-screeninfo
+brave-bin
+droidcam
+google-chrome
+spicetify-cli
+spotify
+ttf-wps-fonts
+v4l2loopback-dc-dkms
 waypaper
+wps-office
 yay
 yay-debug
 zsh-theme-powerlevel10k-git
-zsh-theme-powerlevel10k-git-debug

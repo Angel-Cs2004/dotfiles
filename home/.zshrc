@@ -126,4 +126,10 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+export GOOGLE_API_KEY="AIzaSyD9RV-EG05wOLpYivmJfNxRp3ewyRzPoAY"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export PATH=$PATH:~/.spicetify
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

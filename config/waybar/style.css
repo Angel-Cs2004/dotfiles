@@ -1,17 +1,159 @@
+/* =========================
+   VARIABLES DE COLOR GTK
+   ========================= */
+@define-color bar_bg rgba(30, 30, 46, 0.80);
+@define-color bar_fg #ffffff;
+@define-color bar_border rgba(255, 255, 255, 0.12);
+
+@define-color module_bg rgba(255, 255, 255, 0.06);
+@define-color module_hover rgba(255, 255, 255, 0.16);
+
+@define-color workspace_fg #cfcfcf;
+@define-color workspace_fg_active #ffffff;
+@define-color workspace_bg_hover rgba(255, 255, 255, 0.12);
+@define-color workspace_bg_active rgba(255, 255, 255, 0.08);
+@define-color workspace_border_active #ffffff;
+
+@define-color clock_bg rgba(255, 0, 0, 0.85);
+@define-color clock_fg #ffffff;
+@define-color clock_hover rgba(255, 80, 80, 0.92);
+
+@define-color tooltip_bg rgba(25, 25, 25, 0.96);
+@define-color tooltip_fg #ffffff;
+@define-color tooltip_border #555555;
+
+@define-color battery_warning #ffd166;
+@define-color battery_critical #ff5d73;
+@define-color battery_charging #7bd88f;
+
+@define-color border_gen rgba(30, 30, 46, 1);
+@define-color background_gen rgba(196, 16, 71, 0.7);
+@define-color hover_gen rgba(30, 30, 46, 0.5);
+
+/* =========================
+   TODO WAYBAR
+   ========================= */
 * {
-  font-family: Arial, "Font Awesome 6 Free";
+  margin: 2px;
+  font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", Arial, sans-serif;
   font-size: 13px;
+  border-radius: 0;
+  min-height: 0;
+  box-shadow: none;
+  text-shadow: none;
 }
 
+/* =========================
+   BARRA COMPLETA
+   ========================= */
 window#waybar {
-  background: rgba(20, 20, 20, 0.85);
-  color: #ffffff;
+  background: @bar_bg;
+  color: @bar_fg;
+  /* border-bottom: 1px solid @bar_border;*/
+  border-width: 2px;
+  border: 2px solid transparent;
 }
 
-#workspaces button.active {
-  border-bottom: 2px solid #ffffff;
+/* =========================
+   WORKSPACES
+   ========================= */
+#workspaces {
+  margin: 0 4px;
 }
 
+#workspaces button {
+  padding: 0 8px;
+  margin: 6px 3px;
+  color: @workspace_fg;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  border-radius: 8px;
+}
+
+#workspaces button:hover {
+  background: @workspace_bg_hover;
+  color: @workspace_fg_active;
+}
+
+#workspaces button.focused {
+  background: @workspace_bg_active;
+  color: @workspace_fg_active;
+  border-bottom: 2px solid @workspace_border_active;
+}
+
+/* =========================
+   BASE DE MÓDULOS
+   ========================= */
+#window,
+#clock,
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#tray,
+#battery {
+  border: solid 2px @background_gen;
+  padding: 0 12px;
+  margin: 6px 4px;
+  border-radius: 10px;
+  background: transparent;
+  color: @bar_fg;
+}
+
+/* =========================
+   RELOJ
+   ========================= */
 #clock {
-  background: red;
+  background: transparent;
+  padding: 5px 10px;
+  color: @clock_fg;
+  font-weight: bold;
+  transition: background 0.3s;
+  transition: border 0.3s;
+}
+
+#clock:hover {
+  background: @hover_gen;
+  border: solid 2px @background_gen;
+}
+
+/* =========================
+   HOVER GENERAL
+   ========================= */
+#pulseaudio:hover,
+#network:hover,
+#cpu:hover,
+#memory:hover,
+#battery:hover {
+  background: @module_hover;
+}
+
+/* =========================
+   BATERÍA: ESTADOS
+   ========================= */
+#battery.warning {
+  color: @battery_warning;
+}
+
+#battery.critical {
+  color: @battery_critical;
+}
+
+#battery.charging {
+  color: @battery_charging;
+}
+
+/* =========================
+   TOOLTIP
+   ========================= */
+tooltip {
+  background: @tooltip_bg;
+  border: 1px solid @tooltip_border;
+  border-radius: 10px;
+}
+
+tooltip label {
+  color: @tooltip_fg;
+  font-size: 14px;
+  padding: 10px 14px;
 }

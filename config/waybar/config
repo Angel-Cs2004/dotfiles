@@ -1,24 +1,123 @@
 {
+  // Barra encima de las ventanas
   "layer": "top",
+
+  // Posición superior
   "position": "top",
+
+  // Altura general de la barra
   "height": 34,
 
-  "modules-left": ["hyprland/workspaces", "hyprland/window"],
-  "modules-center": ["clock"],
-  "modules-right": ["pulseaudio", "network", "cpu", "memory", "tray", "battery"]
-}
+  // Separación entre módulos
+  "spacing": 6,
 
-"clock": {
-  "format": "{:%H:%M}",
-  "tooltip-format": "{:%Y-%m-%d %H:%M:%S}",
-  "interval": 60
-}
+  // Módulos izquierda
+  "modules-left": [
+    "hyprland/workspaces",
+    "hyprland/window"
+  ],
 
-"pulseaudio": {
-  "format": "{icon} {volume}%",
-  "format-muted": " muted",
-  "format-icons": {
-    "default": ["", "", ""]
+  // Módulos centro
+  "modules-center": [
+    "clock"
+  ],
+
+  // Módulos derecha
+  "modules-right": [
+    "pulseaudio",
+    "network",
+    "cpu",
+    "memory",
+    "tray",
+    "battery"
+  ],
+
+  // -----------------------------
+  // WORKSPACES
+  // -----------------------------
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "disable-scroll": false,
+    "all-outputs": false
   },
-  "on-click": "pavucontrol"
+
+  // -----------------------------
+  // VENTANA ACTIVA
+  // -----------------------------
+  "hyprland/window": {
+    "format": "{}",
+    "max-length": 60,
+    "separate-outputs": true
+  },
+
+  // -----------------------------
+  // RELOJ
+  // -----------------------------
+  "clock": {
+    "interval": 1,
+    "format": " {:%H:%M:%S}",
+    "format-alt": " {:%A, %d %B %Y}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>"
+  },
+
+  // -----------------------------
+  // AUDIO
+  // -----------------------------
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": " muted",
+    "format-icons": {
+      "default": ["", "", ""]
+    },
+    "on-click": "pavucontrol"
+  },
+
+  // -----------------------------
+  // RED
+  // -----------------------------
+  "network": {
+    "format-wifi": " {signalStrength}%",
+    "format-ethernet": "󰈀 connected",
+    "format-linked": "󰈀 no ip",
+    "format-disconnected": "󰖪 offline",
+    "tooltip-format": "{ifname} via {gwaddr}"
+  },
+
+  // -----------------------------
+  // CPU
+  // -----------------------------
+  "cpu": {
+    "interval": 2,
+    "format": " {usage}%"
+  },
+
+  // -----------------------------
+  // MEMORIA
+  // -----------------------------
+  "memory": {
+    "interval": 2,
+    "format": " {}%"
+  },
+
+  // -----------------------------
+  // TRAY
+  // -----------------------------
+  "tray": {
+    "spacing": 8
+  },
+
+  // -----------------------------
+  // BATERÍA
+  // -----------------------------
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-alt": "{time} {icon}",
+    "format-icons": ["", "", "", "", ""]
+  }
 }
