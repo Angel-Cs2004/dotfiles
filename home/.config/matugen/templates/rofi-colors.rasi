@@ -15,5 +15,13 @@
   cyan    : {{pal.accent2}};
 
   accent: {{pal.accent}};
+
+  /* Variantes con transparencia (#RRGGBBAA) */
+  bg-glass     : {{pal.bg}}b3;
+  bg-veil      : {{pal.bg}}8c;
+  accent-soft  : {{pal.accent}}33;
+  accent-glow  : {{pal.accent}}66;
+  border-soft  : {{pal.border}}99;
+  on-accent    : {{pal.bg}};
   urgent: @yellow;
 }

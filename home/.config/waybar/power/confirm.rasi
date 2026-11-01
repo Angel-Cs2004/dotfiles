@@ -1,0 +1,57 @@
+/* Confirmación (compartida por los 3 diseños) */
+@import "~/.config/rofi/colors.rasi"
+
+configuration { show-icons: false; }
+
+* {
+    font: "JetBrainsMono Nerd Font 12";
+    background-color: transparent;
+    text-color: @fg0;
+}
+
+window {
+    location: center;
+    anchor: center;
+    width: 340px;
+    border: 2px;
+    border-radius: 22px;
+    border-color: @accent;
+    background-color: @bg0;
+}
+
+mainbox {
+    padding: 22px;
+    spacing: 18px;
+    children: [ message, listview ];
+}
+message { border: 0px; }
+textbox {
+    horizontal-align: 0.5;
+    font: "JetBrainsMono Nerd Font Bold 13";
+}
+
+listview {
+    columns: 2;
+    lines: 1;
+    flow: horizontal;
+    fixed-columns: true;
+    spacing: 12px;
+    scrollbar: false;
+}
+element {
+    padding: 10px;
+    border-radius: 14px;
+    background-color: @bg1;
+    text-color: @fg1;
+    cursor: pointer;
+}
+element selected.normal {
+    background-color: @accent;
+    text-color: @on-accent;
+}
+element-text {
+    horizontal-align: 0.5;
+    text-color: inherit;
+    cursor: inherit;
+}
+inputbar { enabled: false; }

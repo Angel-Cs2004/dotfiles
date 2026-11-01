@@ -116,6 +116,40 @@ hl.layer_rule({
     animation = "slide right",
 })
 
+-- Menú de energía (ver ~/.config/waybar/power/)
+hl.layer_rule({   -- rofi: fondo de cristal desenfocado (diseños 1 y 2, y confirmación)
+    name         = "rofi-glass",
+    match        = { namespace = "^rofi$" },
+    blur         = true,
+    ignore_alpha = 0.05,
+    animation    = "popin 90%",
+})
+hl.layer_rule({   -- diseño 3: el panel entra desde la derecha
+    name         = "power-panel",
+    match        = { namespace = "^eww-power$" },
+    blur         = true,
+    ignore_alpha = 0.05,
+    animation    = "slide right",
+})
+hl.layer_rule({   -- diseño 3: velo detrás del panel
+    name         = "power-backdrop",
+    match        = { namespace = "^eww-power-backdrop$" },
+    blur         = true,
+    animation    = "fade",
+})
+
+-- Atajos mientras el panel de energía está abierto
+hl.define_submap("power", function()
+    local p = "~/.config/waybar/power/panel.sh "
+    hl.bind("Escape",    hl.dsp.exec_cmd(p .. "close"))
+    hl.bind("SUPER + P", hl.dsp.exec_cmd(p .. "close"))
+    hl.bind("L",         hl.dsp.exec_cmd(p .. "act lock"))
+    hl.bind("E",         hl.dsp.exec_cmd(p .. "act logout"))
+    hl.bind("S",         hl.dsp.exec_cmd(p .. "act suspend"))
+    hl.bind("R",         hl.dsp.exec_cmd(p .. "act reboot"))
+    hl.bind("P",         hl.dsp.exec_cmd(p .. "act poweroff"))
+end)
+
 hl.config({
     dwindle = {
         preserve_split = true,

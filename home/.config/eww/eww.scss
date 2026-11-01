@@ -50,3 +50,44 @@
 .qbtn:hover { color: #1ed760; background: rgba(255,255,255,0.12); }
 .qbtn.on { color: #1ed760; }
 .searchactive { border: 1.5px solid rgba(255,255,255,0.45); background: rgba(255,255,255,0.16); }
+
+
+// ===== Menú de energía · panel lateral =====
+.power-backdrop { background-color: $veil; }
+.power-panel {
+  background-color: rgba($bg_solid, 0.82);
+  border: 2px solid $accent;
+  border-radius: 24px;
+  padding: 22px 18px 16px 18px;
+  color: $fg;
+}
+.pp-avatar {
+  background-size: cover; background-position: center;
+  border-radius: 50%;
+  border: 2px solid $accent_text;
+  background-color: $bg3;
+}
+.pp-user { font-size: 18px; font-weight: bold; color: $fg; }
+.pp-host { font-size: 12px; color: $fg_dim; }
+.pp-stat { background-color: $bg2; border-radius: 14px; padding: 10px 8px; }
+.pp-stat-icon { font-size: 18px; color: $accent_text; }
+.pp-stat-val { font-size: 12px; color: $fg_dim; }
+.pp-sep { min-height: 1px; background-color: rgba($fg, 0.10); margin: 0 6px; }
+.pp-btn {
+  padding: 11px 14px;
+  border-radius: 14px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.pp-btn:hover { background-color: $accent_soft; border-color: $accent_glow; }
+.pp-btn:hover .pp-icon, .pp-btn:hover .pp-label { color: $accent_text; }
+.pp-btn.danger:hover { background-color: rgba(#ff5d73, 0.16); border-color: rgba(#ff5d73, 0.45); }
+.pp-btn.danger:hover .pp-icon, .pp-btn.danger:hover .pp-label { color: #ff8a9a; }
+.pp-icon { font-size: 20px; color: $fg_dim; min-width: 26px; }
+.pp-label { font-size: 14px; color: $fg; }
+.pp-key {
+  font-size: 10px; font-weight: bold; color: $fg_dim;
+  background-color: $bg3; border-radius: 6px; padding: 2px 7px;
+}
+.pp-hint { font-size: 10px; color: rgba($fg_dim, 0.6); }

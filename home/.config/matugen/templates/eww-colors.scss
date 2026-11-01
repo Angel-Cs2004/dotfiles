@@ -2,3 +2,12 @@
 $bg: rgba({{pal.bg_rgb}}, 0.88);
 $accent: rgba({{pal.border_rgb}}, 0.75);
 $accent_text: {{pal.accent}};
+$fg: {{pal.fg}};
+$fg_dim: {{pal.fg_dim}};
+$bg_solid: {{pal.bg}};
+$bg2: {{pal.bg2}};
+$bg3: {{pal.bg3}};
+$border: {{pal.border}};
+$accent_soft: rgba({{pal.accent_rgb}}, 0.18);
+$accent_glow: rgba({{pal.accent_rgb}}, 0.35);
+$veil: rgba({{pal.bg_rgb}}, 0.45);

@@ -1,16 +1,4 @@
 #!/bin/sh
-
-choice=$(printf "Suspender\nReiniciar\nApagar\n" | rofi -dmenu -i -p "" \
-  -theme $HOME/.config/waybar/power_menu.rasi)
-
-case "$choice" in
-  "Suspender")
-    systemctl suspend
-    ;;
-  "Reiniciar")
-    systemctl reboot
-    ;;
-  "Apagar")
-    systemctl poweroff
-    ;;
-esac
+# Super + P y el botón ⏻ de Waybar llaman a este archivo.
+# El menú está en ./power/ (3 diseños: icons, full, panel).
+exec "$HOME/.config/waybar/power/menu.sh" "$@"

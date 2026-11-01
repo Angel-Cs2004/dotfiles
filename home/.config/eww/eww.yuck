@@ -71,3 +71,58 @@
   :exclusive false
   :focusable "exclusive"
   (player))
+
+
+;; =====================================================================
+;;  Menú de energía · Diseño 3 (panel lateral). Lo abre ~/.config/waybar/power/panel.sh
+;; =====================================================================
+(defvar power_info "{\"user\":\"\",\"host\":\"\",\"uptime\":\"\",\"bat\":\"\",\"charging\":false,\"avatar\":\"\",\"lock\":false}")
+
+(defwidget pp-btn [id icon label key ?danger]
+  (button :class "pp-btn ${danger ? 'danger' : ''}" :onclick "~/.config/waybar/power/panel.sh act ${id}"
+    (box :orientation "h" :space-evenly false :spacing 14
+      (label :class "pp-icon" :text icon)
+      (label :class "pp-label" :hexpand true :halign "start" :text label)
+      (label :class "pp-key" :text key))))
+
+(defwidget power-panel []
+  (box :class "power-panel" :orientation "v" :space-evenly false :spacing 18
+    (box :class "pp-head" :orientation "h" :space-evenly false :spacing 14
+      (box :class "pp-avatar" :style "background-image: url('${power_info.avatar}');" :width 62 :height 62)
+      (box :orientation "v" :valign "center" :space-evenly false :spacing 2
+        (label :class "pp-user" :halign "start" :text {power_info.user})
+        (label :class "pp-host" :halign "start" :text "@${power_info.host}")))
+    (box :class "pp-stats" :orientation "h" :spacing 10
+      (box :class "pp-stat" :orientation "v" :space-evenly false :spacing 4
+        (label :class "pp-stat-icon" :text "󰥔")
+        (label :class "pp-stat-val" :text {power_info.uptime}))
+      (box :class "pp-stat" :orientation "v" :space-evenly false :spacing 4
+        (label :class "pp-stat-icon" :text {power_info.charging ? "󰚥" : "󰁹"})
+        (label :class "pp-stat-val" :text {power_info.bat})))
+    (box :class "pp-sep")
+    (box :orientation "v" :space-evenly false :spacing 6
+      (box :visible {power_info.lock} (pp-btn :id "lock" :icon "󰌾" :label "Bloquear" :key "L" :danger false))
+      (pp-btn :id "logout"   :icon "󰍃"   :label "Cerrar sesión" :key "E" :danger false)
+      (pp-btn :id "suspend"  :icon "󰤄"  :label "Suspender"     :key "S" :danger false)
+      (pp-btn :id "reboot"   :icon "󰜉"   :label "Reiniciar"     :key "R" :danger true)
+      (pp-btn :id "poweroff" :icon "󰐥" :label "Apagar"        :key "P" :danger true))
+    (label :class "pp-hint" :text "Esc para cerrar")))
+
+(defwindow power-backdrop
+  :monitor 0
+  :geometry (geometry :x "0px" :y "0px" :width "100%" :height "100%" :anchor "center")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  :namespace "eww-power-backdrop"
+  (eventbox :onclick "~/.config/waybar/power/panel.sh close"
+    (box :class "power-backdrop" :hexpand true :vexpand true)))
+
+(defwindow power-panel
+  :monitor 0
+  :geometry (geometry :x "16px" :y "0px" :width "310px" :anchor "center right")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  :namespace "eww-power"
+  (power-panel))

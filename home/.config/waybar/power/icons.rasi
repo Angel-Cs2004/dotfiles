@@ -1,0 +1,68 @@
+/* Diseño 1 · Barra de íconos — píldora flotante con íconos grandes en fila */
+@import "~/.config/rofi/colors.rasi"
+
+configuration { show-icons: false; }
+
+* {
+    font: "JetBrainsMono Nerd Font 11";
+    background-color: transparent;
+    text-color: @fg0;
+}
+
+window {
+    location: center;
+    anchor: center;
+    width: 600px;
+    border: 2px;
+    border-radius: 26px;
+    border-color: @border-soft;
+    background-color: @bg-glass;
+}
+
+mainbox {
+    padding: 20px 22px 16px 22px;
+    spacing: 14px;
+    children: [ listview, message ];
+}
+
+listview {
+    columns: 5;  /* lo ajusta menu.sh */
+    lines: 1;
+    layout: vertical;
+    flow: horizontal;
+    fixed-columns: true;
+    spacing: 12px;
+    scrollbar: false;
+}
+
+element {
+    padding: 14px 0px 10px 0px;
+    border: 2px;
+    border-radius: 18px;
+    border-color: transparent;
+    background-color: @bg1;
+    text-color: @fg1;
+    cursor: pointer;
+}
+element selected.normal {
+    background-color: @accent-soft;
+    border-color: @accent;
+    text-color: @accent;
+}
+element-text {
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+    text-color: inherit;
+    cursor: inherit;
+}
+
+message {
+    background-color: transparent;
+    border: 0px;
+}
+textbox {
+    horizontal-align: 0.5;
+    text-color: @fg1;
+    font: "JetBrainsMono Nerd Font 10";
+}
+inputbar { enabled: false; }
