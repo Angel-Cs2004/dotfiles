@@ -122,7 +122,7 @@ hl.layer_rule({   -- rofi: fondo de cristal desenfocado (diseños 1 y 2, y confi
     match        = { namespace = "^rofi$" },
     blur         = true,
     ignore_alpha = 0.05,
-    animation    = "popin 90%",
+    animation    = "fade",   -- fundido parejo: sin bordes que crecen sobre la pantalla
 })
 hl.layer_rule({   -- diseño 3: el panel entra desde la derecha
     name         = "power-panel",
