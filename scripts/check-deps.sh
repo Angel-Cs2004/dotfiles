@@ -8,6 +8,7 @@ deps=(
     "Hyprland:hyprland:el escritorio"
     "waybar:waybar:la barra"
     "dunst:dunst:notificaciones"
+    "hyprlock:hyprlock:bloquear pantalla (menú de energía)"
     "notify-send:libnotify:enviar notificaciones"
     "rofi:rofi:menú de apps y de apagado"
     "eww:eww-git (AUR):reproductor de Spotify y panel"
