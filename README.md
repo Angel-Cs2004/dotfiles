@@ -161,7 +161,8 @@ actions, keys and confirmation dialog — switch with
   *Suspend* is preselected so a stray `Enter` never shuts anything down.
 - The avatar comes from `~/.face` (falls back to the fastfetch logo) and is
   cropped to a circle by `avatar.py`.
-- **hyprlock** lock screen with the same dynamic colors.
+- **hyprlock** lock screen with the same dynamic colors, sized per monitor
+  (`hyprlock-layout.py` scales everything to each display's resolution).
 
 ### 🖱️ Windows-style autoscroll
 `~/.local/bin/autoscroll` · user service

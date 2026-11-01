@@ -14,16 +14,22 @@ confirm() {   # confirm "Texto"  -> 0 si el usuario acepta
     [[ $ans == "󰄬"* ]]
 }
 
+# Antes de bloquear: recalcular tamaños según los monitores conectados
+lock_now() {
+    python3 -I "$HOME/.config/hypr/hyprlock-layout.py" 2>/dev/null
+    pidof hyprlock >/dev/null || hyprlock
+}
+
 case "${1:-}" in
     lock)
-        if command -v hyprlock >/dev/null; then pidof hyprlock >/dev/null || hyprlock
+        if command -v hyprlock >/dev/null; then lock_now
         else notify-send -u low "Bloquear" "Instala hyprlock para bloquear la pantalla"; fi ;;
     logout)
         confirm "¿Cerrar la sesión?" || exit 0
         if command -v hyprshutdown >/dev/null; then hyprshutdown
         else hyprctl dispatch 'hl.dsp.exit()' >/dev/null; fi ;;
     suspend)
-        command -v hyprlock >/dev/null && { pidof hyprlock >/dev/null || hyprlock & sleep 0.5; }
+        command -v hyprlock >/dev/null && { lock_now & sleep 0.8; }
         systemctl suspend ;;
     reboot)
         confirm "¿Reiniciar el equipo?" && systemctl reboot ;;

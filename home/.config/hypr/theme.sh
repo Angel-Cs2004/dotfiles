@@ -19,6 +19,9 @@ python3 -I "$HOME/.config/matugen/palette.py" "$WALL" > "$PAL.tmp" && mv "$PAL.t
 SRC="$(sed -n 's/.*"source": "\(#[0-9a-fA-F]*\)".*/\1/p' "$PAL")"
 matugen -q --import-json "$PAL" color hex "${SRC:-#c41047}" || exit 1
 
+# Tamaños de la pantalla de bloqueo según los monitores conectados
+python3 -I "$HOME/.config/hypr/hyprlock-layout.py" 2>/dev/null
+
 # Recargar
 # waybar recarga colors.css sola (reload_style_on_change)
 pkill -x dunst                      # se reabre solo con la siguiente notificación
