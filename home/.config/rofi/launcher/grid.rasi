@@ -1,0 +1,96 @@
+/* Lanzador · Diseño 1: Cuadrícula de íconos (estilo macOS / GNOME) */
+@import "~/.config/rofi/colors.rasi"
+
+configuration {
+    show-icons: true;
+    icon-theme: "breeze-dark";
+    drun-display-format: "{name}";
+}
+
+* {
+    font: "JetBrainsMono Nerd Font 10";
+    background-color: transparent;
+    text-color: @fg0;
+}
+
+window {
+    location: center;
+    anchor: center;
+    width: 820px;
+    border: 2px;
+    border-radius: 28px;
+    border-color: @border-soft;
+    background-color: @bg-glass;
+}
+
+mainbox {
+    padding: 22px;
+    spacing: 20px;
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    padding: 12px 18px;
+    spacing: 12px;
+    border: 2px;
+    border-radius: 16px;
+    border-color: @accent-glow;
+    background-color: @bg1;
+    children: [ textbox-search, entry ];
+}
+textbox-search {
+    expand: false;
+    str: "󰍉";
+    text-color: @accent;
+    font: "JetBrainsMono Nerd Font 14";
+    vertical-align: 0.5;
+}
+entry {
+    placeholder: "Buscar apps…";
+    placeholder-color: @fg2;
+    font: "JetBrainsMono Nerd Font 13";
+    vertical-align: 0.5;
+    cursor: text;
+}
+
+listview {
+    columns: 6;
+    lines: 3;
+    flow: horizontal;
+    fixed-columns: true;
+    fixed-height: true;
+    spacing: 10px;
+    scrollbar: false;
+    cycle: false;
+}
+
+element {
+    orientation: vertical;
+    padding: 16px 6px 12px 6px;
+    spacing: 10px;
+    border: 2px;
+    border-radius: 18px;
+    border-color: transparent;
+    background-color: transparent;
+    text-color: @fg1;
+    cursor: pointer;
+}
+element selected.normal {
+    background-color: @accent-soft;
+    border-color: @accent;
+    text-color: @accent;
+}
+element-icon {
+    size: 52px;
+    horizontal-align: 0.5;
+    cursor: inherit;
+}
+element-text {
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+    text-color: inherit;
+    cursor: inherit;
+}
+
+message { border: 0px; }
+textbox { text-color: @fg1; horizontal-align: 0.5; }

@@ -1,0 +1,100 @@
+/* Lanzador · Diseño 4: Pantalla completa — velo desenfocado, buscador grande y cuadrícula amplia */
+@import "~/.config/rofi/colors.rasi"
+
+configuration {
+    show-icons: true;
+    icon-theme: "breeze-dark";
+    drun-display-format: "{name}";
+}
+
+* {
+    font: "JetBrainsMono Nerd Font 11";
+    background-color: transparent;
+    text-color: @fg0;
+}
+
+window {
+    fullscreen: true;
+    background-color: @bg-veil;
+    border: 0px;
+}
+
+mainbox {
+    padding: 9% 14% 6% 14%;   /* launcher.sh lo recalcula según el monitor */
+    spacing: 44px;
+    children: [ search-row, listview ];
+}
+
+search-row {
+    orientation: horizontal;
+    expand: false;
+    children: [ search-left, inputbar, search-right ];
+}
+search-left, search-right { expand: true; }
+
+inputbar {
+    expand: false;
+    width: 520px;
+    padding: 14px 22px;
+    spacing: 14px;
+    border: 2px;
+    border-radius: 99px;
+    border-color: @border-soft;
+    background-color: @bg-glass;
+    children: [ textbox-search, entry ];
+}
+textbox-search {
+    expand: false;
+    str: "󰍉";
+    text-color: @accent;
+    font: "JetBrainsMono Nerd Font 15";
+    vertical-align: 0.5;
+}
+entry {
+    placeholder: "Buscar…";
+    placeholder-color: @fg2;
+    font: "JetBrainsMono Nerd Font 14";
+    vertical-align: 0.5;
+    cursor: text;
+}
+
+listview {
+    columns: 7;
+    lines: 4;
+    flow: horizontal;
+    fixed-columns: true;
+    fixed-height: true;
+    spacing: 18px;
+    scrollbar: false;
+    cycle: false;
+}
+
+element {
+    orientation: vertical;
+    padding: 20px 8px 16px 8px;
+    spacing: 12px;
+    border: 2px;
+    border-radius: 22px;
+    border-color: transparent;
+    background-color: transparent;
+    text-color: @fg1;
+    cursor: pointer;
+}
+element selected.normal {
+    background-color: @accent-soft;
+    border-color: @accent;
+    text-color: @accent;
+}
+element-icon {
+    size: 68px;
+    horizontal-align: 0.5;
+    cursor: inherit;
+}
+element-text {
+    horizontal-align: 0.5;
+    text-color: inherit;
+    cursor: inherit;
+}
+
+message { border: 0px; }
+textbox { text-color: @fg1; horizontal-align: 0.5; }
