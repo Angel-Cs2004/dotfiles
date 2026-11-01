@@ -7,6 +7,7 @@ aur:brave-bin
 aur:microsoft-edge-stable-bin
 discord
 spotify-launcher
+aur:spotify
 aur:spicetify-cli
 obs-studio
 mpv
@@ -21,3 +22,4 @@ aur:wps-office
 aur:ttf-wps-fonts
 imagemagick
 espeak-ng
+zenity

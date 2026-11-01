@@ -33,6 +33,8 @@ deps=(
     "yazi:yazi:gestor de archivos en terminal"
     "google-chrome-stable:google-chrome (AUR):navegador de SUPER+B"
     "fastfetch:fastfetch:info del sistema"
+    "spotify:spotify (AUR):reproductor de eww"
+    "zenity:zenity:ventanas del traductor con Claude"
 )
 py_modules=("PIL:python-pillow:paleta de colores" "evdev:python-evdev:autoscroll")
 fonts=("JetBrainsMono Nerd Font:ttf-jetbrains-mono-nerd" "Iosevka Nerd Font:ttf-iosevka-nerd")

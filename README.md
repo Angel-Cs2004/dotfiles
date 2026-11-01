@@ -1,221 +1,485 @@
-# dotfiles · Arch Linux + Hyprland
+<div align="center">
 
-Mi escritorio completo en un solo repo: configuración, programas y un instalador
-que deja una PC recién instalada igual que la mía.
+# yizens · dotfiles
 
-![Escritorio con kitty y fastfetch](docs/escritorio.jpg)
+**An Arch Linux + Hyprland desktop whose colors follow the wallpaper.**
 
-### Los colores siguen al fondo
+Every element — bar, borders, notifications, terminal, launcher, widgets and
+shell prompt — is re-themed from the current wallpaper in under a second, with
+a custom palette engine that keeps any image looking balanced.
 
-Cada vez que cambias el fondo, la barra, los bordes, las notificaciones, la
-terminal y el prompt toman su paleta. Fíjate en los bordes de la barra:
+![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=flat-square&logo=archlinux&logoColor=white)
+![Hyprland](https://img.shields.io/badge/Hyprland_0.56+-58E1FF?style=flat-square&logo=wayland&logoColor=black)
+![Lua](https://img.shields.io/badge/config-Lua-2C2D72?style=flat-square&logo=lua&logoColor=white)
+![Shell](https://img.shields.io/badge/scripts-Bash_·_Python-4EAA25?style=flat-square&logo=gnubash&logoColor=white)
+
+![Desktop](docs/desktop.jpg)
+
+</div>
+
+---
+
+## Contents
+
+- [Highlights](#highlights)
+- [Gallery](#gallery)
+- [Custom tools](#custom-tools)
+- [Software](#software)
+- [Installation](#installation)
+- [Keybindings](#keybindings)
+- [Repository layout](#repository-layout)
+- [Customization](#customization)
+- [Maintenance](#maintenance)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+## Highlights
+
+- **Wallpaper-driven theming** — switch wallpaper with a single key and the
+  whole desktop adapts: Waybar, window borders, dunst, kitty, rofi, eww and the
+  powerlevel10k prompt (open terminals update on the next command).
+- **Perceptual palette engine** — colors are built in OKLCH with chroma limits,
+  so neon wallpapers don't produce garish UIs and dull ones don't look washed out.
+- **Animated wallpaper transitions** with awww, and a live-reloading Waybar
+  (no restart, colors fade in).
+- **Spotify widget** with search, queue, likes and keyboard navigation.
+- **Live PDF translator** for sioyek with optional neural voice.
+- **Quality-of-life daemons**: Windows-style autoscroll, automatic Bluetooth
+  audio routing, Wi-Fi off when Ethernet is plugged in, night light.
+- **Safe, idempotent installer** with dry-run, hardware detection, automatic
+  backups and a pre-commit secret scanner.
+
+---
+
+## Gallery
+
+### The palette follows the wallpaper
 
 | | |
-|---|---|
-| ![Fondo rojo y rosa: barra rosada](docs/tema-kokushibo.jpg) | ![Fondo casi negro: barra roja sobria](docs/tema-minimalista.jpg) |
-| ![Fondo azul: barra azul y violeta](docs/tema-azul.jpg) | ![Fondo de ciudad: barra en tonos fríos](docs/tema-ciudad.jpg) |
-| ![Fondo cálido: barra en tonos durazno](docs/tema-kame.jpg) | ![Reproductor de Spotify en eww](docs/spotify.jpg) |
+|:-:|:-:|
+| ![Red/pink wallpaper](docs/theme-kokushibo.jpg) | ![Near-black wallpaper](docs/theme-minimal.jpg) |
+| *Saturated red → softened rose accents* | *Almost-black image → subtle crimson* |
+| ![Blue wallpaper](docs/theme-blue.jpg) | ![City wallpaper](docs/theme-city.jpg) |
+| *Cool blues → periwinkle accents* | *Mixed tones → cool, balanced palette* |
+| ![Warm wallpaper](docs/theme-kame.jpg) | ![Wallpaper transition](docs/wallpaper-transition.gif) |
+| *Warm sunset → peach accents* | *Animated transition* |
 
-## Qué incluye
+### Apps and widgets
 
 | | |
+|:-:|:-:|
+| ![Spotify player](docs/spotify-player.jpg) | ![Spotify search](docs/spotify-search.jpg) |
+| *Spotify player (`Super + N`)* | *Search, queue and like from the widget* |
+| ![sioyek translator](docs/translator.jpg) | ![Terminal](docs/terminal.jpg) |
+| *Live translator next to a PDF* | *kitty + zsh + powerlevel10k* |
+| ![Launcher](docs/launcher.jpg) | ![Notification](docs/notification.jpg) |
+| *rofi launcher* | *dunst notification* |
+| ![Login screen](docs/login.jpg) | ![Power menu](docs/power-menu.jpg) |
+| *SDDM (astronaut theme)* | *Power menu (`Super + P`)* |
+
+---
+
+## Custom tools
+
+Everything in this section was written for this setup.
+
+### 🎨 Dynamic theme engine
+`~/.config/hypr/theme.sh` · `~/.config/matugen/palette.py`
+
+```
+wallpaper ──► palette.py ──► palette.json ──► matugen templates ──► every app
+              (OKLCH)                         (7 templates)         reloads
+```
+
+1. **matugen** picks the wallpaper's accent color; only its **hue** is kept.
+2. **`palette.py`** rebuilds the full palette in **OKLCH** (a perceptual color
+   space) using fixed lightness levels per role — accent, borders, surfaces,
+   text — so every wallpaper produces colors of the same visual weight.
+3. Guard rails keep it tasteful on *any* image:
+
+   | Wallpaper | Rule |
+   |---|---|
+   | Very saturated (neon, pure red) | Chroma is **capped** |
+   | Dull or pastel | Chroma has a **floor** (never above the source) |
+   | Grayscale / almost no color | Falls back to an elegant **monochrome** theme |
+   | Yellow / yellow-green hues | Extra lightness (they turn muddy when dark) |
+   | Mostly neutral with a small colored detail | The detail sets the hue — like a designer would |
+
+4. The secondary color is an **analogous** hue (±35°) so gradients harmonize.
+5. Prompt segments pick dark or white text by **WCAG contrast**.
+6. matugen renders the templates; Waybar hot-reloads its CSS (with a 1.2 s color
+   fade), dunst/Hyprland/kitty are reloaded, and zsh re-reads the palette on the
+   next prompt.
+
+Tune the look at the top of `palette.py` (`CHROMA_MAX`, `HUE2_SHIFT`, …).
+
+### 🎵 Spotify widget (eww)
+`~/.config/eww/`
+
+- **Hover popup**: hovering the Spotify icon in Waybar opens a mini player;
+  moving away closes it.
+- **Centered player** (`Super + N`) on the monitor under the cursor; launches
+  Spotify silently in a special workspace if it isn't running.
+- **Search** the Spotify catalog as you type, **play** a result, **add it to
+  the queue**, or **like / unlike** it (Liked Songs).
+- Play/pause, previous/next, shuffle, repeat, seek bar and volume.
+- **Keyboard navigation** between results, volume and playback rows.
+
+Uses the Spotify Web API — see [Spotify widget setup](#spotify-widget-setup).
+
+### 📖 Live translator for sioyek
+`~/.local/bin/sioyek-translate-watch.sh`
+
+Read English PDFs with a Spanish translation beside them.
+
+- Press `Super + T` to open the translator panel next to sioyek.
+- **Select any text** in the PDF: it is translated EN → ES instantly
+  (Bing via `translate-shell`), with debounce and an on-disk cache.
+- **Neural voice** (optional): reads the translation sentence by sentence with
+  Microsoft Edge TTS (`es-AR-ElenaNeural`). Toggle with `v` in the panel or
+  `Super + V` anywhere.
+- `sioyek-translate.sh`: alternative that translates the clipboard with
+  **Claude** and shows the result in a dialog.
+
+### 🖱️ Windows-style autoscroll
+`~/.local/bin/autoscroll` · user service
+
+Hold the **middle mouse button and drag** to scroll any window, faster the
+further you move (with acceleration and a dead zone). A short middle click
+still pastes / opens links as usual. Implemented with `evdev` + a virtual
+`uinput` device, so it works in every Wayland app.
+
+### 🔊 Automatic audio routing
+`~/.local/bin/auto-audio-route` · user service
+
+When Bluetooth headphones connect, they become the default output and
+**currently playing streams move to them**; when they disconnect, audio falls
+back to the internal speakers.
+
+### 🌐 Wired over Wi-Fi
+`~/.local/bin/wired-over-wifi` · user service
+
+Turns Wi-Fi **off while Ethernet is connected** and back on when it's unplugged.
+
+### 🌙 Night light
+`~/.local/bin/night-light-toggle.sh`
+
+Warm screen filter via `hyprsunset`, toggled with `Super + F7` or by clicking
+its Waybar module (which shows the current state).
+
+### 🖼️ Wallpaper switcher
+`~/.config/hypr/wallpaper.sh`
+
+Next / random wallpaper from `~/Wallpapers` with an animated **awww**
+transition, a notification with the file name, and the palette regenerated —
+the choice is remembered across reboots.
+
+---
+
+## Software
+
+Packages are split into groups; the installer asks which ones you want.
+`aur:` marks AUR packages.
+
+<details open>
+<summary><b>Desktop (base)</b> — always installed</summary>
+
+| Role | Software |
 |---|---|
-| **Escritorio** | Hyprland (configuración en Lua), SDDM con el tema *astronaut* |
-| **Barra** | Waybar con módulos en píldora, recarga de estilos en vivo |
-| **Colores dinámicos** | Al cambiar el fondo, **toda** la paleta se adapta: barra, notificaciones, bordes de ventanas, terminal, rofi, eww y el prompt de zsh. La paleta se calcula en OKLCH para que cualquier fondo dé colores equilibrados (ni chillones ni apagados) |
-| **Fondos** | awww con transición animada; waypaper para elegir con vista previa |
-| **Notificaciones** | dunst, entran deslizándose y combinan con la barra |
-| **Terminal** | kitty + zsh + oh-my-zsh + powerlevel10k |
-| **Widgets** | eww: reproductor de Spotify y panel |
-| **Extras** | luz nocturna, autoscroll, cambio automático de salida de audio, traductor con voz para sioyek |
+| Compositor | Hyprland (Lua config), xdg-desktop-portal-hyprland, uwsm |
+| Login | SDDM + `sddm-astronaut-theme` |
+| Bar / widgets | Waybar, eww |
+| Notifications | dunst |
+| Launcher | rofi |
+| Wallpaper | awww, waypaper |
+| Theming | matugen + custom palette engine |
+| Terminal / shell | kitty, zsh, oh-my-zsh, powerlevel10k |
+| Files | Dolphin, yazi, Ark |
+| Audio | PipeWire, WirePlumber |
+| Network | NetworkManager, Bluetooth (bluez, blueman) |
+| Fonts | JetBrainsMono Nerd, Iosevka Nerd, Font Awesome |
+| Utilities | grim, slurp, wl-clipboard, brightnessctl, playerctl, hyprsunset, fastfetch, htop, neovim |
 
-## Instalación
+</details>
 
-> **Requisitos:** Arch Linux ya instalado (por ejemplo con `archinstall`), tu
-> usuario con `sudo`, conexión a internet y `git`
-> (`sudo pacman -S git` si no lo tienes).
+<details>
+<summary><b>Apps</b></summary>
+
+| Category | Software |
+|---|---|
+| Browsers | Firefox, Google Chrome, Brave, Microsoft Edge |
+| Media | Spotify (+ Spicetify), mpv, OBS Studio, Snapshot |
+| Communication | Discord |
+| Documents | LibreOffice, WPS Office, Okular, sioyek |
+| Notes / drawing | Xournal++, Rnote, Krita |
+| Other | ImageMagick, espeak-ng, zenity |
+
+</details>
+
+<details>
+<summary><b>Development</b></summary>
+
+| Category | Software |
+|---|---|
+| Editors | Visual Studio Code, Neovim (LazyVim), Zed *(optional)* |
+| Languages | Node.js / npm, Python + uv, R + RStudio |
+| Databases | PostgreSQL, DBeaver |
+| Modeling | StarUML, Visual Paradigm |
+| Tools | git-filter-repo, strace, android-tools, gnuplot, graphviz |
+| AI | Claude Code *(optional)* |
+
+</details>
+
+<details>
+<summary><b>Optional groups</b></summary>
+
+| Group | Contents |
+|---|---|
+| `nvidia` | `nvidia-open-dkms`, VA-API driver — offered only if an NVIDIA GPU is detected |
+| `latex` | Full TeX Live + TeXstudio (~3 GB) |
+| `printing` | CUPS, printer drivers, scanner support |
+| `hardware` | DroidCam (phone as webcam), OpenTabletDriver |
+
+</details>
+
+---
+
+## Installation
+
+> **Requirements:** a fresh Arch Linux install (e.g. via `archinstall`), a user
+> with `sudo`, an internet connection and `git`.
 
 ```bash
 git clone https://github.com/Angel-Cs2004/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-./install.sh --dry-run   # opcional: muestra todo lo que haría, sin tocar nada
-./install.sh
+./install.sh --dry-run   # preview every action, changes nothing
+./install.sh             # install
 ```
 
-El instalador pregunta qué grupos de programas quieres y al final se reinicia
-el equipo. Tarda entre 15 y 40 minutos según la conexión (los paquetes de AUR
-se compilan).
+Reboot when it finishes. A full install takes ~15–40 minutes (AUR packages are
+compiled).
 
-### Qué hace `install.sh`, paso a paso
+### What the installer does
 
-1. **Comprueba** que sea Arch, que no se ejecute como root y que haya internet.
-2. **Actualiza el sistema** (`pacman -Syu`) e instala **yay** si falta.
-3. **Detecta el hardware**: microcódigo Intel/AMD y GPU NVIDIA.
-4. **Instala los paquetes** de los grupos que elijas. Antes verifica que cada
-   paquete exista; si uno falla, sigue con los demás y te lo dice al final.
-5. **Enlaza la configuración** desde el repo a tu carpeta personal. Si ya había
-   algo, lo **mueve a `~/.dotfiles-backup/<fecha>/`** (nunca borra nada).
-6. **Configura el sistema**: tema de SDDM, servicios (sddm, NetworkManager,
-   bluetooth), grupo `input`, zsh como shell, oh-my-zsh y plugins.
-7. **Genera la paleta de colores** a partir del fondo.
-8. **Revisa** que todo quedó bien (`--check`).
+1. **Pre-flight checks** — Arch only, not root, internet available.
+2. **System upgrade** (`pacman -Syu`) and **yay** bootstrap.
+3. **Hardware detection** — Intel/AMD microcode, NVIDIA GPU.
+4. **Packages** for the selected groups. Each package is verified first; a
+   failure is reported at the end instead of aborting the run.
+5. **Links the configuration** into `$HOME`. Anything already there is
+   **moved to `~/.dotfiles-backup/<timestamp>/`** — nothing is ever deleted.
+6. **System setup** — SDDM theme, services (SDDM, NetworkManager, Bluetooth),
+   `input` group, zsh as login shell, oh-my-zsh and plugins.
+7. **Generates the color palette** from the wallpaper.
+8. **Self-check** of links, dependencies, Hyprland version and palette.
 
-Todo queda registrado en `~/.local/state/dotfiles/install-<fecha>.log`.
+Every run is logged to `~/.local/state/dotfiles/install-<timestamp>.log`.
 
-### Opciones
+### Options
 
-| Comando | Para qué |
+| Command | Description |
 |---|---|
-| `./install.sh` | Instalación completa, preguntando |
-| `./install.sh --yes` | Igual, aceptando las opciones por defecto |
-| `./install.sh --dry-run` | Muestra lo que haría, sin cambiar nada |
-| `./install.sh --only-config` | Solo enlaza la configuración (sin paquetes ni sudo) |
-| `./install.sh --check` | Revisa enlaces, dependencias, versión de Hyprland y colores |
+| `./install.sh` | Full interactive install |
+| `./install.sh --yes` | Accept defaults, no prompts |
+| `./install.sh --dry-run` | Print what would happen, change nothing |
+| `./install.sh --only-config` | Only link the configuration (no packages, no sudo) |
+| `./install.sh --check` | Verify links, dependencies, Hyprland version and palette |
 
-Se puede ejecutar las veces que quieras: lo que ya está hecho se salta.
+The installer is **idempotent**: run it as many times as you like.
 
-### Grupos de programas
+### Spotify widget setup
 
-| Grupo | Archivo | Por defecto | Contenido |
-|---|---|---|---|
-| base | `packages/base.txt` | siempre | Hyprland, waybar, dunst, eww, kitty, rofi, matugen, awww, audio, red, fuentes |
-| nvidia | `packages/nvidia.txt` | sí, si hay GPU NVIDIA | drivers `nvidia-open` |
-| apps | `packages/apps.txt` | sí | navegadores, Spotify, Discord, OBS, LibreOffice, WPS, sioyek… |
-| dev | `packages/dev.txt` | sí | VS Code, Node, uv, R/RStudio, DBeaver, PostgreSQL, StarUML… |
-| latex | `packages/latex.txt` | no | TeX Live completo + TeXstudio (~3 GB) |
-| printing | `packages/printing.txt` | no | CUPS, drivers de impresora, escáner |
-| hardware | `packages/hardware.txt` | no | DroidCam, OpenTabletDriver |
+The widget needs your own Spotify API app (free):
 
-En las listas, `aur:` delante del nombre indica un paquete de AUR. Para agregar
-un programa, escribe su nombre en la lista que corresponda.
+1. Create an app at <https://developer.spotify.com/dashboard> with redirect URI
+   `http://127.0.0.1:8888/callback`.
+2. Save its keys in `~/.config/eww/spotify_credentials` (never committed):
+   ```ini
+   CLIENT_ID=<your-client-id>
+   CLIENT_SECRET=<your-client-secret>
+   ```
+3. Run once to authorize likes and queue: `python3 ~/.config/eww/scripts/auth.py`
 
-## Atajos de teclado
+---
 
-| Atajo | Acción |
+## Keybindings
+
+`Super` is the Windows key.
+
+<details open>
+<summary><b>Apps & windows</b></summary>
+
+| Keys | Action |
 |---|---|
-| `SUPER + D` | Menú de aplicaciones |
-| `SUPER + R` | Ejecutar un comando |
-| `SUPER + Q` | Cerrar ventana |
-| `SUPER + TAB` | Pantalla completa |
-| `ALT + TAB` | Terminal |
-| `SUPER + B` | Navegador |
-| `SUPER + E` | Archivos (yazi) |
-| `SUPER + W` | Siguiente fondo (cambia también los colores) |
-| `SUPER + SHIFT + W` | Fondo al azar |
-| `SUPER + ALT + W` | Elegir fondo con waypaper |
-| `SUPER + P` | Menú de apagado |
-| `SUPER + N` | Panel de eww |
-| `SUPER + F5` / `F6` | Bajar / subir brillo |
-| `SUPER + F7` | Luz nocturna |
-| `SUPER + SPACE` | Cambiar distribución de teclado (latam / us) |
-| `SUPER + T` | Traductor de sioyek |
-| `Impr Pant` | Captura de una región (se copia y se guarda en `~/Pictures/screenshots`) |
+| `Super + D` | App launcher (rofi) |
+| `Super + R` | Run a command |
+| `Alt + Tab` | Terminal (kitty) |
+| `Super + B` | Browser |
+| `Super + E` | File manager (yazi) |
+| `Super + Q` | Close window |
+| `Super + Tab` | Fullscreen |
+| `Super + J` | Toggle split direction |
+| `Super + ←↑→↓` | Move focus |
+| `Ctrl + left drag` / `right drag` | Move / resize window |
 
-## Estructura del repo
+</details>
+
+<details open>
+<summary><b>Workspaces</b></summary>
+
+| Keys | Action |
+|---|---|
+| `Super + 1…0` | Go to workspace |
+| `Super + Shift + 1…0` | Move window to workspace |
+| `Super + scroll` | Next / previous workspace |
+| `Super + S` | Toggle scratchpad |
+| `Super + Shift + S` | Send window to scratchpad |
+
+</details>
+
+<details open>
+<summary><b>Desktop features</b></summary>
+
+| Keys | Action |
+|---|---|
+| `Super + W` | Next wallpaper (re-themes everything) |
+| `Super + Shift + W` | Random wallpaper |
+| `Super + Alt + W` | Pick a wallpaper (waypaper) |
+| `Super + N` | Spotify player |
+| `Super + T` | sioyek translator panel |
+| `Super + V` | Toggle translator voice |
+| `Super + F7` | Night light |
+| `Super + P` | Power menu |
+| `Super + M` | Log out |
+| `Super + Space` | Switch keyboard layout (latam / us) |
+| `Print` | Screenshot of a region → clipboard + `~/Pictures/screenshots` |
+| `Super + F5` / `F6` | Brightness down / up |
+| Media keys | Volume, brightness, play/pause, next/previous |
+
+</details>
+
+---
+
+## Repository layout
 
 ```
 dotfiles/
-├── install.sh              instalador
-├── packages/               listas de programas por grupo + extras.sh
-├── home/                   se enlaza en ~  (home/.config/hypr → ~/.config/hypr, etc.)
-│   ├── .zshrc  .p10k.zsh
-│   ├── .config/            hypr, waybar, eww, rofi, kitty, matugen, waypaper, nvim, yazi…
-│   └── .local/bin/         scripts propios
-├── system/                 archivos para /etc y /usr (tema de SDDM)
-├── wallpapers/             fondos (se copian a ~/Wallpapers)
-├── scripts/                check-deps.sh y check-secrets.sh
-└── .githooks/pre-commit    bloquea commits con secretos
+├── install.sh                 installer
+├── packages/                  package lists per group + extras.sh (non-pacman tools)
+├── home/                      mirrored into $HOME as symlinks
+│   ├── .zshrc · .p10k.zsh
+│   ├── .config/
+│   │   ├── hypr/              Hyprland (Lua), theme.sh, wallpaper.sh, hosts/
+│   │   ├── matugen/           palette.py + color templates
+│   │   ├── waybar/ eww/ rofi/ kitty/ waypaper/ fastfetch/ yazi/ nvim/ sioyek/ htop/
+│   │   └── systemd/user/      autoscroll, audio routing, wired-over-wifi…
+│   └── .local/bin/            custom scripts
+├── system/                    files for /etc and /usr (SDDM theme)
+├── wallpapers/                copied to ~/Wallpapers
+├── scripts/                   check-deps.sh · check-secrets.sh
+├── docs/                      screenshots
+└── .githooks/pre-commit       blocks commits containing secrets
 ```
 
-La configuración está **enlazada**, no copiada: al editar `~/.config/hypr/...`
-estás editando el repo. Por eso guardar cambios es solo hacer commit.
+Configuration is **symlinked, not copied**: editing `~/.config/hypr/…` edits
+the repository directly.
 
-## Guardar cambios en el repo
+---
 
-```bash
-cd ~/dotfiles
-git add -A
-git commit -m "Describe el cambio"
-git push
-```
+## Customization
 
-El hook `pre-commit` revisa cada commit y lo **bloquea** si detecta tokens,
-contraseñas, cookies, PDFs o archivos enormes. Para revisar todo el repo a mano:
-`scripts/check-secrets.sh`.
+### Monitors (per machine)
 
-### Agregar la configuración de otra app
-
-1. Mueve su carpeta al repo: `mv ~/.config/APP ~/dotfiles/home/.config/`
-2. Permítela en `.gitignore` agregando la línea `!/home/.config/APP/`
-3. Ejecuta `./install.sh --only-config` para crear el enlace.
-
-## Usarlo en otra PC
-
-**Monitores.** Cada PC tiene su archivo en `home/.config/hypr/hosts/<hostname>.lua`.
-Si no existe, Hyprland usa la resolución nativa de cada pantalla. Para crear el tuyo:
+Each computer gets its own file in `home/.config/hypr/hosts/<hostname>.lua`.
+Without one, every display uses its native resolution automatically.
 
 ```bash
-hostnamectl hostname            # nombre de esta PC
-hyprctl monitors                # nombres y resoluciones de tus pantallas
+hostnamectl hostname        # this machine's name
+hyprctl monitors            # outputs and modes
 cp ~/.config/hypr/hosts/archlinux.lua ~/.config/hypr/hosts/$(hostnamectl hostname).lua
 ```
 
-y edítalo. **Ponle a cada PC un nombre distinto**
-(`sudo hostnamectl hostname mi-pc`); si dos PCs se llaman `archlinux`
-compartirán el mismo archivo de monitores.
+> Give each machine a **unique hostname** (`sudo hostnamectl hostname my-pc`),
+> otherwise they share the same monitor file.
 
-**Usuario distinto.** Las rutas usan `~` y `$HOME`, así que funciona con cualquier
-nombre de usuario. Única excepción: el comando del traductor en
-`home/.config/sioyek/prefs_user.config`, porque sioyek no expande variables.
+### Colors
 
-## Colores dinámicos
+| Want | Edit |
+|---|---|
+| More / less vivid | `CHROMA_MAX` in `home/.config/matugen/palette.py` |
+| Contrasting second color | `HUE2_SHIFT = 180` (default `35`, analogous) |
+| Change how an app is themed | its template in `home/.config/matugen/templates/` |
+| Regenerate without changing wallpaper | `~/.config/hypr/theme.sh` |
 
-El flujo al cambiar el fondo:
+Generated color files (`colors.css`, `colors.lua`, `dunstrc`, …) are **not
+tracked** — each machine builds its own.
 
+### Wallpaper transition
+
+In `~/.config/waypaper/config.ini`: `swww_transition_type` (`grow`, `wave`,
+`wipe`, `outer`, `fade`, `any`), `swww_transition_duration`,
+`swww_transition_angle`.
+
+### Adding another app's config
+
+```bash
+mv ~/.config/APP ~/dotfiles/home/.config/
+echo '!/home/.config/APP/' >> ~/dotfiles/.gitignore   # .gitignore is an allowlist
+~/dotfiles/install.sh --only-config
 ```
-waypaper → ~/.config/hypr/theme.sh
-            ├─ matugen/palette.py   calcula la paleta (OKLCH) → ~/.cache/theme/palette.json
-            ├─ matugen              rellena las plantillas de matugen/templates/
-            └─ recarga dunst, Hyprland y kitty (waybar se recarga sola)
+
+---
+
+## Maintenance
+
+```bash
+cd ~/dotfiles
+git add -A && git commit -m "describe the change" && git push
 ```
 
-- Para regenerar los colores sin cambiar de fondo: `~/.config/hypr/theme.sh`
-- Para ajustar el gusto, al inicio de `home/.config/matugen/palette.py`:
-  `CHROMA_MAX` (más o menos vivo) y `HUE2_SHIFT` (distancia al segundo color).
-- Los archivos de colores generados (`colors.css`, `colors.lua`, `dunstrc`…) **no
-  se versionan**: se crean en cada PC.
+- The **pre-commit hook** blocks commits containing tokens, private keys,
+  browser data, PDFs or files over 20 MB. Full scan: `scripts/check-secrets.sh`.
+- `.gitignore` is an **allowlist**: nothing is tracked unless explicitly listed.
+- `scripts/check-deps.sh` verifies every command, Python module and font the
+  configuration relies on.
 
-## Deshacer
+### Rolling back
 
-Todo lo que el instalador reemplazó está en `~/.dotfiles-backup/<fecha>/`, con
-la misma estructura que tu carpeta personal. Para volver a la versión anterior
-de una app:
+Everything the installer replaced lives in `~/.dotfiles-backup/<timestamp>/`,
+mirroring your home directory:
 
 ```bash
 rm ~/.config/APP
-mv ~/.dotfiles-backup/<fecha>/.config/APP ~/.config/
+mv ~/.dotfiles-backup/<timestamp>/.config/APP ~/.config/
 ```
 
-## Problemas comunes
+---
 
-| Síntoma | Solución |
+## Troubleshooting
+
+| Symptom | Fix |
 |---|---|
-| La barra no aparece | `~/.config/hypr/theme.sh && ~/.config/hypr/start.sh`. Si sigue igual: `waybar -l debug` |
-| Pantalla negra al entrar con NVIDIA | Desde otra TTY (`Ctrl+Alt+F2`): verifica que el módulo cargó (`lsmod \| grep nvidia`) y que instalaste `linux-headers` |
-| Íconos como cuadros o letras raras | Faltan fuentes: `./install.sh --check` dice cuál |
-| Hyprland muestra errores de configuración | `hyprctl configerrors`. La config es Lua y requiere Hyprland ≥ 0.56 |
-| Un paquete de AUR falló | Vuelve a intentarlo con `yay -S <paquete>`; el resto de la instalación no se afecta |
-| Quiero ver qué cambió el instalador | Revisa el log en `~/.local/state/dotfiles/` |
+| Bar missing | `~/.config/hypr/theme.sh && ~/.config/hypr/start.sh`; debug with `waybar -l debug` |
+| Black screen with NVIDIA | From a TTY (`Ctrl+Alt+F2`): `lsmod \| grep nvidia`; make sure `linux-headers` is installed |
+| Boxes instead of icons | Missing fonts — `./install.sh --check` names them |
+| Hyprland config errors | `hyprctl configerrors`; the Lua config needs Hyprland ≥ 0.56 |
+| An AUR package failed | `yay -S <package>`; the rest of the install is unaffected |
+| What did the installer change? | Logs in `~/.local/state/dotfiles/` |
 
-## Qué NO está en el repo (a propósito)
+### Not included on purpose
 
-- **Secretos**: credenciales de Spotify para eww (`~/.config/eww/spotify_credentials`),
-  tokens, `~/.git-credentials`. Para el reproductor de eww, crea tus propias
-  credenciales en <https://developer.spotify.com/dashboard> y guárdalas en ese archivo.
-- **Perfiles de navegadores, Discord, VS Code**: tienen sesiones y datos personales.
-  Usa la sincronización propia de cada programa.
-- **`~/.gitconfig`**: configúralo en cada PC con `git config --global user.name/email`.
-- **sioyek-pastel**: es una compilación propia en `~/.local/opt/sioyek-pastel`. Sin ella,
-  la opción "Open with Sioyek Pastel" de yazi no funciona (el sioyek normal sí).
-- **PostgreSQL**: se instala con el grupo *dev*, pero la base de datos se inicializa
-  a mano (ver la [wiki de Arch](https://wiki.archlinux.org/title/PostgreSQL)).
+- **Secrets** — Spotify API keys, tokens, `~/.git-credentials`.
+- **Browser, Discord and VS Code profiles** — they hold sessions and personal
+  data; use each app's own sync.
+- **`~/.gitconfig`** — set `user.name` / `user.email` on each machine.
+- **sioyek-pastel** — a custom build in `~/.local/opt/sioyek-pastel`; without
+  it only yazi's "Open with Sioyek Pastel" entry is unavailable.
+- **PostgreSQL data** — installed with the *dev* group, initialized manually
+  ([Arch Wiki](https://wiki.archlinux.org/title/PostgreSQL)).
+
+---
+
+<div align="center">
+<sub>Made with too many hours of tweaking · Arch Linux · Hyprland</sub>
+</div>
