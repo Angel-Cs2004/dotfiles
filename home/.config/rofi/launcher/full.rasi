@@ -8,7 +8,7 @@ configuration {
 }
 
 * {
-    font: "JetBrainsMono Nerd Font 11";
+    font: "JetBrainsMono Nerd Font 10";
     background-color: transparent;
     text-color: @fg0;
 }
