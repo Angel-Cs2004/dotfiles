@@ -145,9 +145,9 @@ packages() {
     if ((has_nvidia)) && ask "¿Instalar drivers NVIDIA?" s; then step "Paquetes: nvidia"; install_group nvidia; fi
     ask "¿Instalar apps (navegadores, Spotify, Discord, OBS, oficina…)?" s && { step "Paquetes: apps"; install_group apps; }
     ask "¿Instalar herramientas de desarrollo (VS Code, R, Node, StarUML…)?" s && { step "Paquetes: dev"; install_group dev; }
-    ask "¿Instalar LaTeX (~3 GB)?" n && { step "Paquetes: latex"; install_group latex; }
-    ask "¿Instalar soporte de impresoras y escáner?" n && { step "Paquetes: printing"; install_group printing; }
-    ask "¿Instalar DroidCam y OpenTabletDriver?" n && { step "Paquetes: hardware"; install_group hardware; }
+    ask "¿Instalar LaTeX (~3 GB)?" s && { step "Paquetes: latex"; install_group latex; }
+    ask "¿Instalar soporte de impresoras y escáner?" s && { step "Paquetes: printing"; install_group printing; }
+    ask "¿Instalar DroidCam y OpenTabletDriver?" s && { step "Paquetes: hardware"; install_group hardware; }
     return 0
 }
 
@@ -260,7 +260,7 @@ system_setup() {
     extra_ohmyzsh && ok "oh-my-zsh + powerlevel10k + plugins"
     ask "¿Instalar edge-tts (voz del traductor de sioyek)?" s && extra_uv_tools
     ask "¿Instalar Claude Code (npm)?" s && extra_ai_clis
-    ask "¿Instalar el editor Zed?" n && extra_zed
+    ask "¿Instalar el editor Zed?" s && extra_zed
     return 0
 }
 

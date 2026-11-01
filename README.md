@@ -279,11 +279,11 @@ Packages are split into groups; the installer asks which ones you want.
 </details>
 
 <details>
-<summary><b>Optional groups</b></summary>
+<summary><b>Extra groups</b> — also installed by default</summary>
 
 | Group | Contents |
 |---|---|
-| `nvidia` | `nvidia-open-dkms`, VA-API driver — offered only if an NVIDIA GPU is detected |
+| `nvidia` | `nvidia-open-dkms`, VA-API driver — only if an NVIDIA GPU is detected |
 | `latex` | Full TeX Live + TeXstudio (~3 GB) |
 | `printing` | CUPS, printer drivers, scanner support |
 | `hardware` | DroidCam (phone as webcam), OpenTabletDriver |
@@ -328,7 +328,7 @@ Every run is logged to `~/.local/state/dotfiles/install-<timestamp>.log`.
 | Command | Description |
 |---|---|
 | `./install.sh` | Full interactive install |
-| `./install.sh --yes` | Accept defaults, no prompts |
+| `./install.sh --yes` | Install every group without prompts |
 | `./install.sh --dry-run` | Print what would happen, change nothing |
 | `./install.sh --only-config` | Only link the configuration (no packages, no sudo) |
 | `./install.sh --check` | Verify links, dependencies, Hyprland version and palette |
