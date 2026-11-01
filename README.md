@@ -3,8 +3,18 @@
 Mi escritorio completo en un solo repo: configuración, programas y un instalador
 que deja una PC recién instalada igual que la mía.
 
-<!-- Captura: guarda una imagen en docs/captura.png y descomenta la línea de abajo -->
-<!-- ![Escritorio](docs/captura.png) -->
+![Escritorio con kitty y fastfetch](docs/escritorio.jpg)
+
+### Los colores siguen al fondo
+
+Cada vez que cambias el fondo, la barra, los bordes, las notificaciones, la
+terminal y el prompt toman su paleta. Fíjate en los bordes de la barra:
+
+| | |
+|---|---|
+| ![Fondo rojo y rosa: barra rosada](docs/tema-kokushibo.jpg) | ![Fondo casi negro: barra roja sobria](docs/tema-minimalista.jpg) |
+| ![Fondo azul: barra azul y violeta](docs/tema-azul.jpg) | ![Fondo de ciudad: barra en tonos fríos](docs/tema-ciudad.jpg) |
+| ![Fondo cálido: barra en tonos durazno](docs/tema-kame.jpg) | ![Reproductor de Spotify en eww](docs/spotify.jpg) |
 
 ## Qué incluye
 
