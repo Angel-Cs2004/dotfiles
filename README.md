@@ -37,8 +37,9 @@ a custom palette engine that keeps any image looking balanced.
 ## Highlights
 
 - **Wallpaper-driven theming** — switch wallpaper with a single key and the
-  whole desktop adapts: Waybar, window borders, dunst, kitty, rofi, eww and the
-  powerlevel10k prompt (open terminals update on the next command).
+  whole desktop adapts: Waybar, window borders, dunst, kitty, rofi, eww, yazi,
+  Dolphin and other KDE apps, the lock screen and the powerlevel10k prompt
+  (open terminals update on the next command).
 - **Perceptual palette engine** — colors are built in OKLCH with chroma limits,
   so neon wallpapers don't produce garish UIs and dull ones don't look washed out.
 - **Animated wallpaper transitions** with awww, and a live-reloading Waybar
@@ -242,7 +243,7 @@ Packages are split into groups; the installer asks which ones you want.
 | Wallpaper | awww, waypaper |
 | Theming | matugen + custom palette engine |
 | Terminal / shell | kitty, zsh, oh-my-zsh, powerlevel10k |
-| Files | Dolphin, yazi, Ark |
+| Files | Dolphin, yazi, Ark (themed via plasma-integration + Breeze) |
 | Audio | PipeWire, WirePlumber |
 | Network | NetworkManager, Bluetooth (bluez, blueman) |
 | Fonts | JetBrainsMono Nerd, Iosevka Nerd, Font Awesome |

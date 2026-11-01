@@ -74,6 +74,8 @@ blueman
 
 # Archivos
 dolphin
+plasma-integration
+breeze
 ark
 yazi
 7zip
