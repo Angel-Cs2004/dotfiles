@@ -1,0 +1,103 @@
+# Generado desde el fondo de pantalla (palette.py + matugen) — no editar a mano
+# Flavor de yazi: ~/.config/yazi/flavors/dinamico.yazi/flavor.toml
+
+[mgr]
+cwd = { fg = "{{pal.accent}}", bold = true }
+find_keyword  = { fg = "{{pal.accent}}", bold = true, italic = true, underline = true }
+find_position = { fg = "{{pal.accent2}}", bold = true, italic = true }
+symlink_target = { fg = "{{pal.fg_dim}}", italic = true }
+marker_copied   = { fg = "#7bd88f", bg = "#7bd88f" }
+marker_cut      = { fg = "#ff5d73", bg = "#ff5d73" }
+marker_marked   = { fg = "{{pal.accent2}}", bg = "{{pal.accent2}}" }
+marker_selected = { fg = "{{pal.accent}}", bg = "{{pal.accent}}" }
+count_copied   = { fg = "{{pal.bg}}", bg = "#7bd88f" }
+count_cut      = { fg = "{{pal.bg}}", bg = "#ff5d73" }
+count_selected = { fg = "{{pal.bg}}", bg = "{{pal.accent}}" }
+border_style  = { fg = "{{pal.outline}}" }
+
+[tabs]
+active   = { fg = "{{pal.bg}}", bg = "{{pal.accent}}", bold = true }
+inactive = { fg = "{{pal.fg_dim}}", bg = "{{pal.bg3}}" }
+
+[mode]
+normal_main = { fg = "{{pal.bg}}", bg = "{{pal.accent}}", bold = true }
+normal_alt  = { fg = "{{pal.accent}}", bg = "{{pal.bg3}}" }
+select_main = { fg = "{{pal.bg}}", bg = "{{pal.accent2}}", bold = true }
+select_alt  = { fg = "{{pal.accent2}}", bg = "{{pal.bg3}}" }
+unset_main  = { fg = "{{pal.bg}}", bg = "#ff5d73", bold = true }
+unset_alt   = { fg = "#ff5d73", bg = "{{pal.bg3}}" }
+
+[indicator]
+parent  = { fg = "{{pal.fg}}", bg = "{{pal.bg3}}" }
+current = { fg = "{{pal.bg}}", bg = "{{pal.accent}}", bold = true }
+preview = { fg = "{{pal.accent}}", underline = true }
+
+[status]
+perm_sep   = { fg = "{{pal.outline}}" }
+perm_type  = { fg = "{{pal.accent}}" }
+perm_read  = { fg = "#e0af68" }
+perm_write = { fg = "#ff5d73" }
+perm_exec  = { fg = "#7bd88f" }
+progress_label  = { fg = "{{pal.fg}}", bold = true }
+progress_normal = { fg = "{{pal.accent}}", bg = "{{pal.bg3}}" }
+progress_error  = { fg = "#ff5d73", bg = "{{pal.bg3}}" }
+
+[which]
+border = { fg = "{{pal.border}}" }
+cand   = { fg = "{{pal.accent}}" }
+rest   = { fg = "{{pal.outline}}" }
+desc   = { fg = "{{pal.fg_dim}}" }
+separator_style = { fg = "{{pal.outline}}" }
+
+[confirm]
+border  = { fg = "{{pal.border}}" }
+title   = { fg = "{{pal.accent}}", bold = true }
+btn_yes = { fg = "{{pal.bg}}", bg = "{{pal.accent}}" }
+btn_no  = { fg = "{{pal.fg_dim}}" }
+
+[spot]
+border   = { fg = "{{pal.border}}" }
+title    = { fg = "{{pal.accent}}" }
+tbl_col  = { fg = "{{pal.accent}}" }
+tbl_cell = { fg = "{{pal.bg}}", bg = "{{pal.accent}}" }
+
+[notify]
+title_info  = { fg = "#7bd88f" }
+title_warn  = { fg = "#e0af68" }
+title_error = { fg = "#ff5d73" }
+
+[pick]
+border = { fg = "{{pal.border}}" }
+active = { fg = "{{pal.accent}}", bold = true }
+
+[input]
+border   = { fg = "{{pal.border}}" }
+title    = { fg = "{{pal.accent}}" }
+selected = { fg = "{{pal.bg}}", bg = "{{pal.accent}}" }
+
+[cmp]
+border = { fg = "{{pal.border}}" }
+active = { fg = "{{pal.bg}}", bg = "{{pal.accent}}" }
+
+[tasks]
+border  = { fg = "{{pal.border}}" }
+title   = { fg = "{{pal.accent}}" }
+hovered = { fg = "{{pal.accent}}", bold = true }
+
+[help]
+border  = { fg = "{{pal.border}}" }
+chord   = { fg = "{{pal.accent}}" }
+hovered = { fg = "{{pal.bg}}", bg = "{{pal.accent}}", bold = true }
+
+[filetype]
+rules = [
+	{ mime = "**/image/*", fg = "#e0af68" },
+	{ mime = "**/{audio,video}/*", fg = "{{pal.accent2}}" },
+	{ mime = "**/application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#ff5d73" },
+	{ mime = "**/application/{pdf,doc,rtf}", fg = "{{pal.accent}}" },
+	{ mime = "vfs/{absent,stale}", fg = "{{pal.outline}}" },
+	{ url = "*", is = "orphan", fg = "#ff5d73" },
+	{ url = "*", is = "exec", fg = "#7bd88f" },
+	{ url = "*/", fg = "{{pal.accent}}", bold = true },
+	{ url = "*", fg = "{{pal.fg}}" },
+]

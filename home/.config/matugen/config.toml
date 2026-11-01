@@ -32,3 +32,11 @@ output_path = "~/.config/zsh/p10k-colors.zsh"
 [templates.hyprlock]
 input_path  = "~/.config/matugen/templates/hyprlock-colors.conf"
 output_path = "~/.config/hypr/hyprlock-colors.conf"
+
+[templates.kde]
+input_path  = "~/.config/matugen/templates/kde-colors.colors"
+output_path = "~/.local/share/color-schemes/Dinamico.colors"
+
+[templates.yazi]
+input_path  = "~/.config/matugen/templates/yazi-flavor.toml"
+output_path = "~/.config/yazi/flavors/dinamico.yazi/flavor.toml"

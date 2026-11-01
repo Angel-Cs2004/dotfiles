@@ -1,12 +1,12 @@
-[status]
-separator_open  = ""
-separator_close = ""
-separator_style = { fg = "reset", bg = "reset" }
-
-# Mode
-mode_normal = { fg = "#89DDFF", bg = "reset" }
-mode_select = { fg = "#e78a4e", bg = "reset" }
-mode_unset  = { fg = "#e78a4e", bg = "reset" }
+# Colores: flavor "dinamico", generado desde el fondo de pantalla
+# (~/.config/matugen/templates/yazi-flavor.toml). Aquí solo van los ajustes propios.
+[flavor]
+dark  = "dinamico"
+light = "dinamico"
 
 [mgr]
 border_symbol = " "
+
+[status]
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }

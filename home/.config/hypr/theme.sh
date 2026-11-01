@@ -19,6 +19,9 @@ python3 -I "$HOME/.config/matugen/palette.py" "$WALL" > "$PAL.tmp" && mv "$PAL.t
 SRC="$(sed -n 's/.*"source": "\(#[0-9a-fA-F]*\)".*/\1/p' "$PAL")"
 matugen -q --import-json "$PAL" color hex "${SRC:-#c41047}" || exit 1
 
+# Apps KDE (Dolphin, Ark, Okular…): esquema de color en kdeglobals
+python3 -I "$HOME/.config/matugen/kde-apply.py" 2>/dev/null
+
 # Tamaños de la pantalla de bloqueo según los monitores conectados
 python3 -I "$HOME/.config/hypr/hyprlock-layout.py" 2>/dev/null
 

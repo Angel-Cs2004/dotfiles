@@ -79,3 +79,4 @@ __pycache__/
 .DS_Store
 /home/.config/hypr/hyprlock-colors.conf
 /home/.config/hypr/hyprlock-layout.conf
+/home/.config/yazi/flavors/
