@@ -45,7 +45,8 @@ a custom palette engine that keeps any image looking balanced.
   (no restart, colors fade in).
 - **Spotify widget** with search, queue, likes and keyboard navigation.
 - **Live PDF translator** for sioyek with optional neural voice.
-- **Power menu** with three interchangeable designs, all themed from the wallpaper.
+- **Power menu** and **app launcher**, each with three interchangeable designs,
+  themed from the wallpaper and scaled to the monitor they open on.
 - **Quality-of-life daemons**: Windows-style autoscroll, automatic Bluetooth
   audio routing, Wi-Fi off when Ethernet is plugged in, night light.
 - **Safe, idempotent installer** with dry-run, hardware detection, automatic
@@ -74,6 +75,11 @@ a custom palette engine that keeps any image looking balanced.
 | *Spotify player (`Super + N`)* | *Search, queue and like from the widget* |
 | ![sioyek translator](docs/translator.jpg) | ![Terminal](docs/terminal.jpg) |
 | *Live translator next to a PDF* | *kitty + zsh + powerlevel10k* |
+
+<p align="center">
+  <img src="docs/launcher.jpg" alt="App launcher" width="100%"><br>
+  <em>App launcher (<code>Super + D</code>) — fullscreen design with fuzzy search</em>
+</p>
 
 | ![Power menu](docs/power-menu.jpg) | ![Login screen](docs/login.jpg) |
 |:-:|:-:|
@@ -142,6 +148,25 @@ Read English PDFs with a Spanish translation beside them.
   `Super + V` anywhere.
 - `sioyek-translate.sh`: alternative that translates the clipboard with
   **Claude** and shows the result in a dialog.
+
+### 🚀 App launcher
+`~/.config/rofi/launcher.sh` · `~/.config/rofi/launcher/`
+
+Opened with `Super + D`. Three designs — switch with
+`~/.config/rofi/launcher.sh --set <design>`:
+
+| Design | Look |
+|---|---|
+| `full` *(default)* | Fullscreen blurred veil, rounded search pill and a wide icon grid (8 × 5) |
+| `grid` | Compact glass window with a 6-column icon grid |
+| `spotlight` | Wide search bar with a list showing each app's description |
+
+- **Fuzzy search** across name, description, keywords and command
+  (`vsc` → Visual Studio Code).
+- **Sizes scale with the monitor** it opens on, so icons keep the same
+  proportion on a 1080p screen and a HiDPI laptop.
+- Arrow keys move through the grid, `Enter` launches, `Esc` (or `Super + D`
+  again) closes.
 
 ### ⏻ Power menu
 `~/.config/waybar/power/`
@@ -213,7 +238,7 @@ Packages are split into groups; the installer asks which ones you want.
 | Login / lock | SDDM + `sddm-astronaut-theme`, hyprlock |
 | Bar / widgets | Waybar, eww |
 | Notifications | dunst |
-| Launcher | rofi |
+| Launcher | rofi (3 designs, fuzzy search) |
 | Wallpaper | awww, waypaper |
 | Theming | matugen + custom palette engine |
 | Terminal / shell | kitty, zsh, oh-my-zsh, powerlevel10k |
@@ -334,7 +359,7 @@ The widget needs your own Spotify API app (free):
 
 | Keys | Action |
 |---|---|
-| `Super + D` | App launcher (rofi) |
+| `Super + D` | App launcher (fuzzy search) |
 | `Super + R` | Run a command |
 | `Alt + Tab` | Terminal (kitty) |
 | `Super + B` | Browser |

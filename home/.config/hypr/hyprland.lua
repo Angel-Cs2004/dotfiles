@@ -227,10 +227,6 @@ hl.bind(mainMod2 .. " + " .. mainMod1, hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod  .. " + Q",        hl.dsp.window.close()) -- pa poder cerrar
 hl.bind(mainMod  .. " + E",        hl.dsp.exec_cmd(fileManager2))
 hl.bind("SUPER + D",               hl.dsp.exec_cmd("~/.config/rofi/launcher.sh"))
--- TEMPORAL: probar los 3 diseños del lanzador (quitar al elegir uno)
-hl.bind("SUPER + F1", hl.dsp.exec_cmd("~/.config/rofi/launcher.sh grid"))
-hl.bind("SUPER + F2", hl.dsp.exec_cmd("~/.config/rofi/launcher.sh spotlight"))
-hl.bind("SUPER + F3", hl.dsp.exec_cmd("~/.config/rofi/launcher.sh full"))
 hl.bind("Print", hl.dsp.exec_cmd('mkdir -p ~/Pictures/screenshots && grim -g "$(slurp)" - | tee ~/Pictures/screenshots/$(date +%Y-%m-%d_%H-%M-%S).png | wl-copy'))
 -- Control de brillo
 hl.bind("SUPER + F5", hl.dsp.exec_cmd("brightnessctl set 5%-"))
