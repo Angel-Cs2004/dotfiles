@@ -16,12 +16,24 @@ window {
 }
 
 mainbox {
-    children: [ dummy-top, message, listview, dummy-bottom ];
+    children: [ dummy-top, avatar-row, message, listview, dummy-bottom ];
     spacing: 34px;
     padding: 0px;
 }
 
 dummy-top    { expand: true; }
+
+/* Avatar centrado (menu.sh pone la imagen; si no hay, se oculta) */
+avatar-row {
+    orientation: horizontal;
+    expand: false;
+    children: [ avatar-left, icon-avatar, avatar-right ];
+}
+avatar-left, avatar-right { expand: true; }
+icon-avatar {
+    size: 110px;
+    expand: false;
+}
 dummy-bottom { expand: true; }
 
 message {

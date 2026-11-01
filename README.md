@@ -45,6 +45,7 @@ a custom palette engine that keeps any image looking balanced.
   (no restart, colors fade in).
 - **Spotify widget** with search, queue, likes and keyboard navigation.
 - **Live PDF translator** for sioyek with optional neural voice.
+- **Power menu** with three interchangeable designs, all themed from the wallpaper.
 - **Quality-of-life daemons**: Windows-style autoscroll, automatic Bluetooth
   audio routing, Wi-Fi off when Ethernet is plugged in, night light.
 - **Safe, idempotent installer** with dry-run, hardware detection, automatic
@@ -74,10 +75,9 @@ a custom palette engine that keeps any image looking balanced.
 | ![sioyek translator](docs/translator.jpg) | ![Terminal](docs/terminal.jpg) |
 | *Live translator next to a PDF* | *kitty + zsh + powerlevel10k* |
 
-<p align="center">
-  <img src="docs/login.jpg" alt="Login screen" width="49%"><br>
-  <em>SDDM login (astronaut theme)</em>
-</p>
+| ![Power menu](docs/power-menu.jpg) | ![Login screen](docs/login.jpg) |
+|:-:|:-:|
+| *Power menu (`Super + P`)* | *SDDM login (astronaut theme)* |
 
 ---
 
@@ -143,6 +143,26 @@ Read English PDFs with a Spanish translation beside them.
 - `sioyek-translate.sh`: alternative that translates the clipboard with
   **Claude** and shows the result in a dialog.
 
+### ⏻ Power menu
+`~/.config/waybar/power/`
+
+Opened with `Super + P` or the ⏻ button in Waybar. Three designs share the same
+actions, keys and confirmation dialog — switch with
+`~/.config/waybar/power_menu.sh --set <design>`:
+
+| Design | Look |
+|---|---|
+| `full` *(default)* | Fullscreen blurred veil, round avatar with an accent ring, big clock, greeting and glass cards |
+| `icons` | Compact floating glass pill with large icons |
+| `panel` | eww side panel that slides in from the right with avatar, uptime and battery |
+
+- Keys: `L` lock · `E` log out · `S` suspend · `R` reboot · `P` power off · `Esc` close.
+- Log out, reboot and power off ask for **confirmation** ("No" preselected);
+  *Suspend* is preselected so a stray `Enter` never shuts anything down.
+- The avatar comes from `~/.face` (falls back to the fastfetch logo) and is
+  cropped to a circle by `avatar.py`.
+- **hyprlock** lock screen with the same dynamic colors.
+
 ### 🖱️ Windows-style autoscroll
 `~/.local/bin/autoscroll` · user service
 
@@ -189,7 +209,7 @@ Packages are split into groups; the installer asks which ones you want.
 | Role | Software |
 |---|---|
 | Compositor | Hyprland (Lua config), xdg-desktop-portal-hyprland, uwsm |
-| Login | SDDM + `sddm-astronaut-theme` |
+| Login / lock | SDDM + `sddm-astronaut-theme`, hyprlock |
 | Bar / widgets | Waybar, eww |
 | Notifications | dunst |
 | Launcher | rofi |
@@ -351,7 +371,7 @@ The widget needs your own Spotify API app (free):
 | `Super + T` | sioyek translator panel |
 | `Super + V` | Toggle translator voice |
 | `Super + F7` | Night light |
-| `Super + P` | Power menu |
+| `Super + P` | Power menu (`L` lock · `E` log out · `S` suspend · `R` reboot · `P` power off) |
 | `Super + M` | Log out |
 | `Super + Space` | Switch keyboard layout (latam / us) |
 | `Print` | Screenshot of a region → clipboard + `~/Pictures/screenshots` |

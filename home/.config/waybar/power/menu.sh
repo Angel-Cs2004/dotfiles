@@ -56,10 +56,13 @@ case $style in
         # Margen lateral para que las tarjetas midan ~170 px en cualquier monitor
         mon_w=$(hyprctl -j monitors | python3 -c 'import json,sys; m=[m for m in json.load(sys.stdin) if m["focused"]][0]; print(int(m["width"]/m["scale"]))')
         n=${#opts[@]}; side=$(( (mon_w - n * 170 - (n - 1) * 22) / 2 )); ((side < 20)) && side=20
+        avatar=$(python3 -I "$DIR/avatar.py" 2>/dev/null)
+        if [[ -n $avatar ]]; then avatar_css="icon-avatar { filename: \"$avatar\"; }"
+        else avatar_css="avatar-row { enabled: false; }"; fi
         run_rofi full "$(date +%H:%M)<span font='JetBrainsMono Nerd Font 14' weight='normal'>
 Hasta luego, <b>$user</b>  <span alpha='55%'>·  encendido hace $uptime_txt</span></span>" \
             "<span font='JetBrainsMono Nerd Font 30'>%s</span>\n<span font='JetBrainsMono Nerd Font 11'>%s</span>" \
-            "listview { margin: 0px ${side}px; }" ;;
+            "listview { margin: 0px ${side}px; } $avatar_css" ;;
     panel)
         exec "$DIR/panel.sh" open ;;
     *) echo "Diseño desconocido: $style (icons, full, panel)" >&2; exit 1 ;;

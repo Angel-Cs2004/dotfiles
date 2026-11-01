@@ -17,6 +17,7 @@ qt6-svg
 qt6-virtualkeyboard
 qt6-multimedia-ffmpeg
 aur:sddm-astronaut-theme
+hyprlock
 
 # Barra, notificaciones, menús, widgets
 waybar
