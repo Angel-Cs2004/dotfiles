@@ -1,0 +1,12 @@
+[Unit]
+Description=StarUML MCP HTTP server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/npx -y staruml-mcp --transport http --port 58323
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=default.target

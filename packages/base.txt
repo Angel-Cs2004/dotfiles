@@ -1,0 +1,98 @@
+# ====================================================================
+#  BASE — el escritorio en sí. Sin esto la personalización no funciona.
+#  Formato: un paquete por línea. "aur:" delante = paquete de AUR.
+# ====================================================================
+
+# Hyprland y sesión
+hyprland
+xdg-desktop-portal-hyprland
+uwsm
+qt5-wayland
+qt6-wayland
+polkit-kde-agent
+sddm
+qt6-5compat
+qt6-declarative
+qt6-svg
+qt6-virtualkeyboard
+qt6-multimedia-ffmpeg
+aur:sddm-astronaut-theme
+
+# Barra, notificaciones, menús, widgets
+waybar
+dunst
+libnotify
+rofi
+aur:eww-git
+
+# Fondos y colores dinámicos
+awww
+aur:waypaper
+matugen
+python
+python-pillow
+
+# Terminal y shell
+kitty
+zsh
+git
+rsync
+curl
+wget
+
+# Utilidades que usan los atajos y scripts
+brightnessctl
+playerctl
+hyprsunset
+grim
+slurp
+wl-clipboard
+ffmpeg
+python-evdev
+translate-shell
+xdg-utils
+xdg-user-dirs
+
+# Audio
+pipewire
+pipewire-alsa
+pipewire-jack
+pipewire-pulse
+wireplumber
+gst-plugin-pipewire
+libpulse
+alsa-utils
+sof-firmware
+
+# Red y bluetooth
+networkmanager
+network-manager-applet
+bluez
+bluez-utils
+blueman
+
+# Archivos
+dolphin
+ark
+yazi
+7zip
+unzip
+zip
+unrar
+ntfs-3g
+
+# Fuentes (waybar/kitty usan JetBrainsMono Nerd; rofi usa Iosevka Nerd)
+ttf-jetbrains-mono
+ttf-jetbrains-mono-nerd
+ttf-iosevka-nerd
+ttf-nerd-fonts-symbols
+woff2-font-awesome
+
+# Consola
+neovim
+vim
+nano
+htop
+fastfetch
+pacman-contrib
+usbutils

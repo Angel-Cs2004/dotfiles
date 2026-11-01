@@ -1,0 +1,150 @@
+#!/usr/bin/env python3
+"""Autoscroll global con el botón central (estilo Windows) para Wayland/Hyprland.
+
+Mantén apretada la rueda y arrastra el mouse hacia arriba o abajo: la ventana
+bajo el cursor se desplaza, más rápido cuanto más te alejes del punto inicial.
+Un clic central corto (sin mover) se sigue enviando normal (pegar, abrir pestaña, etc.).
+
+Funciona capturando los mouse físicos (evdev grab) y reenviando todo a través
+de un mouse virtual (uinput), excepto el gesto de autoscroll.
+"""
+import math
+import select
+import sys
+import time
+
+import evdev
+from evdev import UInput, ecodes as e
+
+# ---- Ajustes ----
+DEADZONE = 10          # px que hay que mover antes de que empiece a desplazarse
+SPEED = 2.5            # multiplicador de velocidad
+EXPONENT = 1.6         # >1 = acelera más al alejarte
+MAX_NOTCHES_PER_SEC = 150
+CLICK_MAX_MOVE = 5     # si moviste menos que esto, cuenta como clic central normal
+TICK = 0.008           # segundos entre pasos de scroll (~120 Hz)
+
+TAG = "(autoscroll)"
+HIRES = 120            # unidades hi-res por "muesca" de rueda
+
+
+def find_mice():
+    mice = []
+    for path in evdev.list_devices():
+        try:
+            d = evdev.InputDevice(path)
+        except OSError:
+            continue
+        caps = d.capabilities()
+        rel = caps.get(e.EV_REL, [])
+        keys = caps.get(e.EV_KEY, [])
+        if TAG not in d.name and e.BTN_MIDDLE in keys and e.REL_X in rel and e.REL_Y in rel:
+            mice.append(d)
+        else:
+            d.close()
+    return mice
+
+
+class Mouse:
+    def __init__(self, dev):
+        self.dev = dev
+        caps = {k: v for k, v in dev.capabilities().items() if k not in (e.EV_SYN, e.EV_FF)}
+        rel = set(caps.get(e.EV_REL, []))
+        rel |= {e.REL_WHEEL, e.REL_WHEEL_HI_RES}
+        caps[e.EV_REL] = sorted(rel)
+        self.ui = UInput(caps, name=f"{dev.name} {TAG}", vendor=dev.info.vendor,
+                         product=dev.info.product, version=dev.info.version, bustype=dev.info.bustype)
+        time.sleep(0.2)  # deja que el compositor registre el dispositivo virtual
+        dev.grab()
+        self.held = False
+        self.reset()
+
+    def reset(self):
+        self.oy = 0.0
+        self.max_move = 0.0
+        self.hi_acc = 0.0     # fracción hi-res pendiente
+        self.low_acc = 0      # hi-res emitido, para generar REL_WHEEL clásico
+        self.last = time.monotonic()
+
+    def handle(self, ev):
+        ui = self.ui
+        if ev.type == e.EV_KEY and ev.code == e.BTN_MIDDLE:
+            if ev.value == 1:
+                self.held = True
+                self.reset()
+            elif ev.value == 0 and self.held:
+                self.held = False
+                if self.max_move <= CLICK_MAX_MOVE:
+                    ui.write(e.EV_KEY, e.BTN_MIDDLE, 1)
+                    ui.syn()
+                    ui.write(e.EV_KEY, e.BTN_MIDDLE, 0)
+                    ui.syn()
+            return  # nunca reenviar el botón central "crudo"
+        if self.held and ev.type == e.EV_REL and ev.code in (e.REL_X, e.REL_Y):
+            if ev.code == e.REL_Y:
+                self.oy += ev.value
+            self.max_move = max(self.max_move, abs(self.oy), abs(ev.value) if ev.code == e.REL_X else 0)
+        ui.write(ev.type, ev.code, ev.value)  # el cursor sigue moviéndose
+
+    def step(self):
+        if not self.held:
+            return
+        now = time.monotonic()
+        dt, self.last = now - self.last, now
+        dist = abs(self.oy) - DEADZONE
+        if dist <= 0:
+            return
+        speed = min(SPEED * dist ** EXPONENT, MAX_NOTCHES_PER_SEC * HIRES)
+        # arrastrar hacia abajo (oy > 0) => desplazar hacia abajo (rueda negativa)
+        self.hi_acc += -math.copysign(speed * dt, self.oy)
+        n = int(self.hi_acc)
+        if n == 0:
+            return
+        self.hi_acc -= n
+        self.ui.write(e.EV_REL, e.REL_WHEEL_HI_RES, n)
+        self.low_acc += n
+        notches = int(self.low_acc / HIRES)
+        if notches:
+            self.low_acc -= notches * HIRES
+            self.ui.write(e.EV_REL, e.REL_WHEEL, notches)
+        self.ui.syn()
+
+    def close(self):
+        for f in (self.dev.ungrab, self.dev.close, self.ui.close):
+            try:
+                f()
+            except OSError:
+                pass
+
+
+def main():
+    devs = find_mice()
+    if not devs:
+        print("No se encontró ningún mouse con botón central", file=sys.stderr)
+        return 1
+    mice = {}
+    try:
+        for d in devs:
+            mice[d.fd] = Mouse(d)
+            print(f"Autoscroll activo en: {d.name} ({d.path})", flush=True)
+        while True:
+            timeout = TICK if any(m.held for m in mice.values()) else None
+            ready, _, _ = select.select(list(mice), [], [], timeout)
+            for fd in ready:
+                m = mice[fd]
+                for ev in m.dev.read():
+                    m.handle(ev)
+            for m in mice.values():
+                m.step()
+    except OSError as err:  # p. ej. mouse desconectado: systemd lo reinicia
+        print(f"Error de dispositivo: {err}", file=sys.stderr)
+        return 1
+    except KeyboardInterrupt:
+        return 0
+    finally:
+        for m in mice.values():
+            m.close()
+
+
+if __name__ == "__main__":
+    sys.exit(main())

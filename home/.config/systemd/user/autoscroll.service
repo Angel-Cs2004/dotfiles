@@ -1,0 +1,12 @@
+[Unit]
+Description=Autoscroll global con el boton central del mouse
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 %h/.local/bin/autoscroll
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,12 @@
+/* Generado desde el fondo de pantalla (palette.py + matugen) — no editar a mano */
+@define-color bar_bg rgba({{pal.bg_rgb}}, 0.80);
+@define-color background_gen rgba({{pal.border_rgb}}, 0.75);
+@define-color border_gen {{pal.bg}};
+@define-color hover_gen rgba({{pal.accent_rgb}}, 0.18);
+@define-color module_hover rgba({{pal.accent_rgb}}, 0.16);
+@define-color workspace_bg_hover rgba({{pal.accent_rgb}}, 0.14);
+@define-color workspace_bg_active rgba({{pal.accent_rgb}}, 0.10);
+@define-color workspace_border_active {{pal.accent}};
+@define-color tooltip_bg rgba({{pal.bg_rgb}}, 0.88);
+@define-color menu_bg rgba({{pal.bg_rgb}}, 0.88);
+@define-color accent_text {{pal.accent}};

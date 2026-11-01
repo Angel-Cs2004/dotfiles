@@ -1,0 +1,33 @@
+#!/bin/sh
+
+interval=5
+
+has_wired_connection() {
+    nmcli -t -f TYPE,STATE device status \
+        | awk -F: '$1 == "ethernet" && $2 == "connected" { found = 1 } END { exit !found }'
+}
+
+wifi_state() {
+    nmcli radio wifi 2>/dev/null
+}
+
+set_wifi() {
+    desired="$1"
+    current="$(wifi_state)"
+
+    if [ "$desired" = "off" ] && [ "$current" != "disabled" ]; then
+        nmcli radio wifi off >/dev/null 2>&1
+    elif [ "$desired" = "on" ] && [ "$current" != "enabled" ]; then
+        nmcli radio wifi on >/dev/null 2>&1
+    fi
+}
+
+while :; do
+    if has_wired_connection; then
+        set_wifi off
+    else
+        set_wifi on
+    fi
+
+    sleep "$interval"
+done

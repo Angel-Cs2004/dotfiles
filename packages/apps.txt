@@ -1,0 +1,23 @@
+# ====================================================================
+#  APPS — programas de uso diario
+# ====================================================================
+firefox
+aur:google-chrome
+aur:brave-bin
+aur:microsoft-edge-stable-bin
+discord
+spotify-launcher
+aur:spicetify-cli
+obs-studio
+mpv
+snapshot
+krita
+okular
+xournalpp
+rnote
+aur:sioyek-appimage
+libreoffice-fresh
+aur:wps-office
+aur:ttf-wps-fonts
+imagemagick
+espeak-ng

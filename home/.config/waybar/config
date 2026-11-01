@@ -1,0 +1,176 @@
+{
+  // Barra encima de las ventanas
+  "layer": "top",
+
+  // Recarga style.css (y colors.css) en vivo, sin cerrar la barra
+  "reload_style_on_change": true,
+
+  // Posición superior
+  "position": "top",
+
+  // Altura general de la barra
+  "height": 34,
+
+  // Separación entre módulos
+  "spacing": 6,
+
+  // Módulos izquierda
+  "modules-left": [
+    "hyprland/workspaces"
+  ],
+
+  // Módulos centro
+  "modules-center": [
+    "clock"
+  ],
+
+  // Módulos derecha
+  "modules-right": [
+    "custom/nightlight",
+    "pulseaudio",
+    "network",
+    "cpu",
+    "memory",
+    "tray",
+    "battery",
+    "custom/power"
+  ],
+
+  // -----------------------------
+  // WORKSPACES
+  // -----------------------------
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "disable-scroll": false,
+    "all-outputs": false
+  },
+
+  // -----------------------------
+  // VENTANA ACTIVA
+  // -----------------------------
+  "hyprland/window": {
+    "format": "{}",
+    "max-length": 60,
+    "separate-outputs": true
+  },
+
+  // -----------------------------
+  // REPRODUCTOR SPOTIFY (solo Spotify)
+  // -----------------------------
+  "custom/spotify": {
+    "format": "<span face='Phosphor-Fill' size='large'></span>",
+    "exec": "echo spotify",
+    "interval": 60,
+    "tooltip": false,
+    "on-click": "$HOME/.config/eww/scripts/toggle.sh"
+  },
+
+  // -----------------------------
+  // RELOJ
+  // -----------------------------
+  "clock": {
+    "interval": 1,
+    "format": "<span face='Phosphor-Fill' size='large'></span> {:%H:%M:%S}",
+    "format-alt": "<span face='Phosphor-Fill' size='large'></span> {:%A, %d %B %Y}",
+    "tooltip-format": "<span face='JetBrainsMono Nerd Font Mono'>{calendar}</span>",
+    "calendar": {
+      "mode": "month",
+      "weeks-pos": "",
+      "on-scroll": 1,
+      "format": {
+        "months":   "<span color='#ffffff'><b> {}</b></span>",
+        "weekdays": "<span color='#e0517a'><b> {} </b></span>",
+        "days":     "<span color='#bfc3d4'> {} </span>",
+        "today":    "<span color='#c41047'><span letter_spacing='-3494'>\u200b\u200b</span><span size='85%' background='#c41047' color='#ffffff'><b>{}</b></span><span letter_spacing='-3594'>\u200b\u200b</span></span>"
+      }
+    },
+    "actions": {
+      "on-scroll-up": "shift_down",
+      "on-scroll-down": "shift_up",
+      "on-click-right": "shift_reset"
+    }
+  },
+
+  // -----------------------------
+  // MODO CÁLIDO (luz nocturna)
+  // -----------------------------
+  "custom/nightlight": {
+    "exec": "$HOME/.local/bin/night-light-toggle.sh status",
+    "return-type": "json",
+    "interval": 10,
+    "signal": 8,
+    "on-click": "$HOME/.local/bin/night-light-toggle.sh"
+  },
+
+  // -----------------------------
+  // AUDIO
+  // -----------------------------
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "<span face='Phosphor-Fill' size='large'></span>",
+    "format-icons": {
+      "default": ["<span face='Phosphor-Fill' size='large'></span>", "<span face='Phosphor-Fill' size='large'></span>", "<span face='Phosphor-Fill' size='large'></span>"]
+    },
+    "on-click": "pavucontrol"
+  },
+
+  // -----------------------------
+  // RED
+  // -----------------------------
+  "network": {
+    "format-wifi": "{icon} {signalStrength}%",
+    "format-ethernet": "<span face='Phosphor-Fill' size='large'></span>",
+    "format-linked": "<span face='Phosphor-Fill' size='large'></span>",
+    "format-disconnected": "<span face='Phosphor-Fill' size='large'></span>",
+    "tooltip-format": "{ifname} via {gwaddr}",
+    "format-icons": ["<span face='Phosphor-Fill' size='large'></span>", "<span face='Phosphor-Fill' size='large'></span>", "<span face='Phosphor-Fill' size='large'></span>", "<span face='Phosphor-Fill' size='large'></span>", "<span face='Phosphor-Fill' size='large'></span>"]
+  },
+
+  // -----------------------------
+  // CPU
+  // -----------------------------
+  "cpu": {
+    "interval": 2,
+    "format": "<span face='Phosphor-Fill' size='large'></span> {usage}%"
+  },
+
+  // -----------------------------
+  // MEMORIA
+  // -----------------------------
+  "memory": {
+    "interval": 2,
+    "format": "<span face='Phosphor-Fill' size='large'></span> {}%"
+  },
+
+  // -----------------------------
+  // TRAY
+  // -----------------------------
+  "tray": {
+    "spacing": 8
+  },
+
+  // -----------------------------
+  // BATERÍA
+  // -----------------------------
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "<span face='Phosphor-Fill' size='large'></span> {capacity}%",
+    "format-plugged": "<span face='Phosphor-Fill' size='large'></span> {capacity}%",
+    "format-alt": "{time} {icon}",
+    "format-icons": ["<span face='Phosphor-Fill' size='large'></span>", "<span face='Phosphor-Fill' size='large'></span>", "<span face='Phosphor-Fill' size='large'></span>", "<span face='Phosphor-Fill' size='large'></span>", "<span face='Phosphor-Fill' size='large'></span>"]
+  },
+
+  // -----------------------------
+  // MENÚ DE ENERGÍA
+  // -----------------------------
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": true,
+    "tooltip-format": "Opciones de energía",
+    "on-click": "$HOME/.config/waybar/power_menu.sh"
+  }
+}

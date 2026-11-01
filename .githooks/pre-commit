@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Bloquea el commit si hay secretos o archivos privados (ver scripts/check-secrets.sh)
+exec "$(git rev-parse --show-toplevel)/scripts/check-secrets.sh" --staged

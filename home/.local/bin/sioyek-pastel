@@ -1,0 +1,7 @@
+#!/bin/sh
+SIOYEK_HOME=$HOME/.local/opt/sioyek-pastel/usr
+export QT_QPA_PLATFORM=xcb
+export LD_LIBRARY_PATH="$SIOYEK_HOME/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export QT_PLUGIN_PATH="$SIOYEK_HOME/plugins"
+cd "$SIOYEK_HOME/bin" || exit 1
+exec "$SIOYEK_HOME/bin/sioyek" "$@"

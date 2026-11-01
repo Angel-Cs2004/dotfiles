@@ -1,0 +1,19 @@
+# ====================================================================
+#  DESARROLLO
+# ====================================================================
+aur:visual-studio-code-bin
+nodejs
+npm
+uv
+git-filter-repo
+strace
+android-tools
+r
+aur:rstudio-desktop-bin
+tk
+gnuplot
+graphviz
+dbeaver
+postgresql
+aur:staruml
+aur:visual-paradigm

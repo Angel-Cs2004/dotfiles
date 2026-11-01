@@ -1,0 +1,19 @@
+/* Generado desde el fondo de pantalla (palette.py + matugen) — no editar a mano */
+* {
+  bg0     : {{pal.bg}}e6;
+  bg1     : {{pal.bg2}};
+  bg2     : {{pal.bg3}};
+  bg3     : {{pal.border}};
+  fg0     : {{pal.fg}};
+  fg1     : {{pal.fg_dim}};
+  fg2     : {{pal.outline}};
+  red     : #f7768e;
+  green   : #9ece6a;
+  yellow  : #e0af68;
+  blue    : {{pal.accent}};
+  magenta : {{pal.accent2}};
+  cyan    : {{pal.accent2}};
+
+  accent: {{pal.accent}};
+  urgent: @yellow;
+}

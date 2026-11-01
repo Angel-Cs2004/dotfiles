@@ -1,0 +1,90 @@
+# Generado desde el fondo de pantalla (palette.py + matugen) — no editar a mano (plantilla: ~/.config/matugen/templates/dunstrc)
+
+[global]
+    monitor = 0
+    follow = mouse
+
+    # Geometría: arriba a la derecha, justo debajo de la barra (34px)
+    width = (280, 380)
+    height = (0, 220)
+    origin = top-right
+    offset = (12, 48)
+    notification_limit = 5
+    gap_size = 8
+
+    # Barra de progreso (volumen, brillo, etc.)
+    progress_bar = true
+    progress_bar_height = 8
+    progress_bar_frame_width = 0
+    progress_bar_min_width = 150
+    progress_bar_max_width = 340
+    progress_bar_corner_radius = 4
+
+    indicate_hidden = yes
+    separator_height = 0
+    padding = 12
+    horizontal_padding = 14
+    text_icon_padding = 12
+
+    # Borde y esquinas como los módulos de waybar
+    frame_width = 2
+    frame_color = "{{pal.border}}b3"
+    corner_radius = 10
+    separator_color = frame
+    sort = yes
+
+    # Texto
+    font = JetBrainsMono Nerd Font 10
+    line_height = 2
+    markup = full
+    format = "<b>%s</b>\n<span foreground='{{pal.fg_dim}}'>%b</span>"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    ellipsize = end
+    ignore_newline = no
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = no
+
+    # Iconos / imágenes
+    enable_recursive_icon_lookup = true
+    icon_position = left
+    min_icon_size = 40
+    max_icon_size = 56
+    icon_corner_radius = 8
+
+    sticky_history = yes
+    history_length = 20
+
+    dmenu = /usr/bin/rofi -dmenu -p dunst
+    browser = /usr/bin/xdg-open
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+    ignore_dbusclose = false
+
+    mouse_left_click = do_action, close_current
+    mouse_middle_click = close_all
+    mouse_right_click = close_current
+
+[urgency_low]
+    background = "{{pal.bg}}cc"
+    foreground = "{{pal.fg_dim}}"
+    frame_color = "#ffffff1f"
+    highlight = "{{pal.fg_dim}}"
+    timeout = 5
+
+[urgency_normal]
+    background = "{{pal.bg}}cc"
+    foreground = "{{pal.fg}}"
+    frame_color = "{{pal.border}}b3"
+    highlight = "{{pal.accent}}"
+    timeout = 8
+
+[urgency_critical]
+    background = "{{pal.bg}}f2"
+    foreground = "{{pal.fg}}"
+    frame_color = "#ff5d73"
+    highlight = "#ff5d73"
+    timeout = 0

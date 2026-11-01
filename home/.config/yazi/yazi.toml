@@ -1,0 +1,42 @@
+[mgr]
+ratio = [1, 2, 3]
+sort_dir_first = true
+show_symlink = true
+
+[preview]
+max_width = 1000
+image_quality = 70
+
+[opener]
+edit = [
+	{ run = 'if [ -d "$1" ]; then cd -- "$1" && exec /usr/bin/nvim .; else cd -- "$(dirname -- "$1")" && exec /usr/bin/nvim "$(basename -- "$1")"; fi', block = true, desc = "Open with Neovim" },
+]
+browser = [
+	{ run = 'microsoft-edge-stable "$@"', orphan = true, desc = "Open with Edge" },
+]
+pdf = [
+	{ run = '"$HOME"/.local/bin/sioyek-pastel "$@"', orphan = true, desc = "Open with Sioyek Pastel" },
+]
+
+[open]
+rules = [
+	# PDFs -> Sioyek
+	{ mime = "application/pdf", use = "pdf" },
+
+	# Directorios → Neovim
+	{ mime = "inode/directory", use = "edit" },
+
+	# Código y texto → Neovim
+	{ mime = "text/*", use = "edit" },
+	{ mime = "application/json", use = "edit" },
+	{ mime = "application/javascript", use = "edit" },
+	{ mime = "application/typescript", use = "edit" },
+	{ mime = "application/x-sh", use = "edit" },
+	{ mime = "application/xml", use = "edit" },
+
+	# Extensiones de código comunes (fallback por si el mime no se detecta)
+	{ url = "*.{rs,go,py,js,ts,tsx,jsx,c,cpp,h,hpp}", use = "edit" },
+	{ url = "*.{java,rb,php,lua,vim,sh,bash,zsh,fish}", use = "edit" },
+	{ url = "*.{toml,yaml,yml,json,xml,html,css,scss}", use = "edit" },
+	{ url = "*.{md,txt,conf,cfg,ini,env,lock}", use = "edit" },
+]

@@ -1,0 +1,73 @@
+(defpoll sp :interval "1s" :initial "{\"running\":false,\"vol\":0,\"liked\":false,\"tid\":\"\",\"shuffle\":\"Off\",\"loop\":\"None\",\"status\":\"\",\"title\":\"\",\"artist\":\"\",\"art\":\"\",\"pct\":0,\"posf\":\"0:00\",\"lenf\":\"0:00\"}"
+  `python3 ~/.config/eww/scripts/info.py`)
+
+(defvar view "{\"items\":[],\"n\":0,\"sel\":-1,\"row\":\"playback\",\"thumb_h\":0,\"thumb_top\":0}")
+(defvar added "")
+(defvar prev "{\"on\":false,\"pct\":0,\"posf\":\"\"}")
+(defpoll vol :interval "2s" :initial "0" `playerctl -p spotify volume 2>/dev/null | awk '{printf "%d", $1*100}'`)
+
+(defwidget player []
+  (eventbox
+    (box :class "player" :orientation "v" :space-evenly false :spacing 10
+      (box :orientation "h" :space-evenly false :spacing 6
+        (input :class "search ${view.row == 'search' ? 'searchactive' : ''}" :hexpand true :value "" :onchange "~/.config/eww/scripts/search.sh {}" :onaccept "~/.config/eww/scripts/search.sh {}")
+        (button :class "tbtn" :tooltip "Cerrar Spotify" :onclick "~/.config/eww/scripts/quit.sh" "✕")
+        (button :class "tbtn" :tooltip "Mostrar ventana de Spotify" :onclick "~/.config/eww/scripts/show.sh" "↗"))
+      (revealer :reveal {view.n > 0} :transition "slidedown" :duration "150ms"
+        (eventbox :onscroll "~/.config/eww/scripts/nav.sh scroll {}"
+          (box :orientation "h" :space-evenly false :spacing 6 :height 240
+            (box :class "results frow ${view.row == 'results' ? 'activerow' : ''}" :orientation "v" :space-evenly false :spacing 2 :hexpand true
+              (for r in {view.items}
+                (box :class "rrow ${r.sel && view.row == 'results' ? 'selected' : ''}" :orientation "h" :space-evenly false :spacing 4
+                  (button :class "result" :hexpand true :onclick "playerctl -p spotify open spotify:track:${r.id}"
+                    (box :orientation "h" :space-evenly false :spacing 10
+                      (box :class "rcover" :style "background-image: url('${r.art}');" :width 36 :height 36)
+                      (box :orientation "v" :space-evenly false :valign "center" :hexpand true
+                        (label :class "rtitle" :halign "start" :limit-width 30 :text "${r.title}")
+                        (label :class "rartist" :halign "start" :limit-width 30 :text "${r.artist}"))))
+                  (box :valign "center" (button :class "qbtn ${r.queued ? 'on' : ''}" :tooltip "Añadir a la cola (Espacio)" :onclick "~/.config/eww/scripts/enqueue.sh ${r.id}" "󰐒"))
+                  (box :width 12)
+                  (box :valign "center" (button :width 16 :height 16 :class "addbtn ${r.liked ? 'liked' : ''}" :tooltip {r.liked ? "Quitar de Tus me gusta" : "Añadir a Tus me gusta"} :onclick "~/.config/eww/scripts/add.sh ${r.id}" {r.liked ? "✓" : "+"})))))
+            (box :class "track" :orientation "v" :valign "start" :width 6 :height 240
+              (box :class "thumb" :valign "start" :height {view.thumb_h} :style "margin-top: ${view.thumb_top}px;")))))
+      (player-body))))
+
+(defwidget player-body []
+  (eventbox
+    (box :class "body" :orientation "h" :space-evenly false :spacing 14
+      (box :class "cover" :style "background-image: url('${sp.art}');" :width 84 :height 84)
+      (box :orientation "v" :space-evenly false :spacing 4 :hexpand true
+        (box :class "frow ${view.row == 'volume' ? 'activerow' : ''}" :orientation "h" :space-evenly false :spacing 6
+          (label :class "title" :halign "start" :limit-width 20 :text "${sp.title}")
+          (box :valign "center" (button :width 16 :height 16 :class "addbtn ${sp.liked ? 'liked' : ''}" :tooltip {sp.liked ? "Quitar de Tus me gusta" : "Añadir a Tus me gusta"} :onclick "~/.config/eww/scripts/add.sh current" {sp.liked ? "✓" : "+"}))
+          (box :hexpand true :halign "end" :class "volbox" :space-evenly false :spacing 4
+            (label :class "volicon" :text {vol == 0 ? "󰝟" : vol < 50 ? "󰖀" : "󰕾"})
+            (label :class "volpct" :text "${vol}%")))
+        (label :class "artist" :halign "start" :limit-width 30 :text "${sp.artist}")
+        (box :class "controls frow ${view.row == 'playback' ? 'activerow' : ''}" :orientation "h" :halign "center" :space-evenly false :spacing 10
+          (button :class "btn small ${sp.shuffle == 'On' ? 'on' : ''}" :tooltip "Aleatorio" :onclick "playerctl -p spotify shuffle Toggle" "󰒟")
+          (button :class "btn" :onclick "playerctl -p spotify previous" "󰒮")
+          (button :class "btn play" :onclick "playerctl -p spotify play-pause" {sp.status == "Playing" ? "󰏤" : "󰐊"})
+          (button :class "btn" :onclick "playerctl -p spotify next" "󰒭")
+          (button :class "btn small ${sp.loop != 'None' ? 'on' : ''}" :tooltip "Bucle: playlist / canción / apagado" :onclick "~/.config/eww/scripts/loop.sh" {sp.loop == "Track" ? "󰑘" : "󰑖"}))
+        (box :class "frow ${view.row == 'seek' ? 'activerow' : ''}" :orientation "h" :space-evenly false :spacing 8
+          (label :class "time" :text {prev.on ? prev.posf : sp.posf})
+          (scale :class "seek" :hexpand true :min 0 :max 100 :value {prev.on ? prev.pct : sp.pct}
+                 :onchange "~/.config/eww/scripts/seek.sh {}")
+          (label :class "time" :text "${sp.lenf}"))))))
+
+(defwindow spotify-popup
+  :monitor 0
+  :geometry (geometry :x "56px" :y "6px" :anchor "top left" :width "430px")
+  :stacking "overlay"
+  :exclusive false
+  :focusable "ondemand"
+  (player))
+
+(defwindow spotify-center
+  :monitor 0
+  :geometry (geometry :x "0px" :y "0px" :anchor "center" :width "430px")
+  :stacking "overlay"
+  :exclusive false
+  :focusable "exclusive"
+  (player))

@@ -1,0 +1,18 @@
+# ====================================================================
+#  IMPRESORAS Y ESCÁNER
+# ====================================================================
+cups
+cups-pdf
+cups-pk-helper
+system-config-printer
+ghostscript
+gsfonts
+gutenprint
+foomatic-db
+foomatic-db-engine
+foomatic-db-nonfree
+foomatic-db-ppds
+foomatic-db-nonfree-ppds
+foomatic-db-gutenprint-ppds
+sane
+simple-scan

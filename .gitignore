@@ -1,0 +1,79 @@
+# =====================================================================
+#  Lista blanca: TODO está ignorado salvo lo que se permite abajo.
+#  Así nunca se sube por accidente un perfil de navegador, una sesión
+#  o un secreto. Para agregar una app nueva: añade su línea "!".
+# =====================================================================
+
+# --- Raíz del repo ---
+/*
+!/.gitignore
+!/.githooks/
+!/README.md
+!/install.sh
+!/packages/
+!/scripts/
+!/system/
+!/wallpapers/
+!/docs/
+!/home/
+
+# --- Carpeta personal ---
+/home/*
+!/home/.zshrc
+!/home/.p10k.zsh
+!/home/.config/
+!/home/.local/
+
+/home/.config/*
+!/home/.config/hypr/
+!/home/.config/waybar/
+!/home/.config/dunst/
+!/home/.config/eww/
+!/home/.config/rofi/
+!/home/.config/kitty/
+!/home/.config/matugen/
+!/home/.config/waypaper/
+!/home/.config/fastfetch/
+!/home/.config/nvim/
+!/home/.config/yazi/
+!/home/.config/htop/
+!/home/.config/sioyek/
+!/home/.config/systemd/
+
+/home/.local/*
+!/home/.local/bin/
+
+# --- Archivos generados (se crean al cambiar el fondo; no se versionan) ---
+/home/.config/waybar/colors.css
+/home/.config/hypr/colors.lua
+/home/.config/kitty/colors.conf
+/home/.config/rofi/colors.rasi
+/home/.config/eww/colors.scss
+/home/.config/dunst/dunstrc
+/home/.config/zsh/
+
+# --- Estado que cambia solo ---
+/home/.config/waypaper/config.ini
+/home/.config/nvim/lazy-lock.json.bak
+/home/.config/systemd/user/*.wants/
+/home/.config/sioyek/backups/
+
+# --- Secretos (nunca) ---
+/home/.config/eww/spotify_credentials
+*credentials*
+*.secret
+.env
+.env.*
+*.pem
+*.key
+.git-credentials
+
+# --- Basura ---
+*.bak
+*.bak-*
+*.bak.*
+__pycache__/
+*.pyc
+*.swp
+*~
+.DS_Store

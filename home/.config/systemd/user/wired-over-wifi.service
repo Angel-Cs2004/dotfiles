@@ -1,0 +1,12 @@
+[Unit]
+Description=Prefer wired networking over Wi-Fi
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/wired-over-wifi
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target

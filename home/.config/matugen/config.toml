@@ -1,0 +1,30 @@
+# Colores dinámicos: se ejecuta desde ~/.config/hypr/theme.sh al cambiar el fondo
+[config]
+
+[templates.waybar]
+input_path  = "~/.config/matugen/templates/waybar-colors.css"
+output_path = "~/.config/waybar/colors.css"
+
+[templates.dunst]
+input_path  = "~/.config/matugen/templates/dunstrc"
+output_path = "~/.config/dunst/dunstrc"
+
+[templates.hyprland]
+input_path  = "~/.config/matugen/templates/hypr-colors.lua"
+output_path = "~/.config/hypr/colors.lua"
+
+[templates.kitty]
+input_path  = "~/.config/matugen/templates/kitty-colors.conf"
+output_path = "~/.config/kitty/colors.conf"
+
+[templates.rofi]
+input_path  = "~/.config/matugen/templates/rofi-colors.rasi"
+output_path = "~/.config/rofi/colors.rasi"
+
+[templates.eww]
+input_path  = "~/.config/matugen/templates/eww-colors.scss"
+output_path = "~/.config/eww/colors.scss"
+
+[templates.p10k]
+input_path  = "~/.config/matugen/templates/p10k-colors.zsh"
+output_path = "~/.config/zsh/p10k-colors.zsh"

@@ -1,0 +1,9 @@
+# ====================================================================
+#  NVIDIA — solo se ofrece si se detecta una GPU NVIDIA
+#  (nvidia-open: tarjetas RTX 20xx / GTX 16xx en adelante)
+# ====================================================================
+nvidia-open-dkms
+nvidia-utils
+libva-nvidia-driver
+linux-headers
+dkms

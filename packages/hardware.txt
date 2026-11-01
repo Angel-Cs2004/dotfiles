@@ -1,0 +1,9 @@
+# ====================================================================
+#  PERIFÉRICOS OPCIONALES
+# ====================================================================
+# Usar el celular como cámara
+aur:droidcam
+aur:v4l2loopback-dc-dkms
+aur:droidcam-obs-plugin
+# Tableta gráfica
+aur:opentabletdriver

@@ -1,0 +1,6 @@
+# ====================================================================
+#  LATEX — pesado (~3 GB). texlive-meta = colección completa.
+# ====================================================================
+texlive-meta
+texlive-langspanish
+texstudio
