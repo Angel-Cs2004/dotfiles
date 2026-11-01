@@ -26,7 +26,8 @@ patterns='(ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-[A-Za-z0-9_-]{30
 for f in "${files[@]}"; do
     [[ -f $f ]] || continue
     if grep -IEn "$patterns" -- "$f" >/dev/null 2>&1; then
-        grep -IEn "$patterns" -- "$f" | sed -E 's/(.{0,60}).*/\1…/' | sed "s|^|✗ Posible secreto en $f:|"
+        # Solo archivo:línea, sin mostrar el valor (podría quedar en un log)
+        grep -IEn "$patterns" -- "$f" | cut -d: -f1 | sed "s|^|✗ Posible secreto en $f, línea |"
         fail=1
     fi
 done
