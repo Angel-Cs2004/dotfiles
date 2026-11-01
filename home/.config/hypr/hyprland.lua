@@ -245,6 +245,10 @@ hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("~/.local/bin/sioyek-toggle-voice.sh"
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("~/.config/waybar/power_menu.sh"))
+-- TEMPORAL: probar los 3 diseños del menú de energía (quitar al elegir uno)
+hl.bind("SUPER + F1", hl.dsp.exec_cmd("~/.config/waybar/power_menu.sh icons"))
+hl.bind("SUPER + F2", hl.dsp.exec_cmd("~/.config/waybar/power_menu.sh full"))
+hl.bind("SUPER + F3", hl.dsp.exec_cmd("~/.config/waybar/power_menu.sh panel"))
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle
 
 -- Mover el foco con las flechas

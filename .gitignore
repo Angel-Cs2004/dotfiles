@@ -77,3 +77,4 @@ __pycache__/
 *.swp
 *~
 .DS_Store
+/home/.config/hypr/hyprlock-colors.conf

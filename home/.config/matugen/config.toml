@@ -28,3 +28,7 @@ output_path = "~/.config/eww/colors.scss"
 [templates.p10k]
 input_path  = "~/.config/matugen/templates/p10k-colors.zsh"
 output_path = "~/.config/zsh/p10k-colors.zsh"
+
+[templates.hyprlock]
+input_path  = "~/.config/matugen/templates/hyprlock-colors.conf"
+output_path = "~/.config/hypr/hyprlock-colors.conf"
