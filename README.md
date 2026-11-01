@@ -73,10 +73,11 @@ a custom palette engine that keeps any image looking balanced.
 | *Spotify player (`Super + N`)* | *Search, queue and like from the widget* |
 | ![sioyek translator](docs/translator.jpg) | ![Terminal](docs/terminal.jpg) |
 | *Live translator next to a PDF* | *kitty + zsh + powerlevel10k* |
-| ![Launcher](docs/launcher.jpg) | ![Notification](docs/notification.jpg) |
-| *rofi launcher* | *dunst notification* |
-| ![Login screen](docs/login.jpg) | ![Power menu](docs/power-menu.jpg) |
-| *SDDM (astronaut theme)* | *Power menu (`Super + P`)* |
+
+<p align="center">
+  <img src="docs/login.jpg" alt="Login screen" width="49%"><br>
+  <em>SDDM login (astronaut theme)</em>
+</p>
 
 ---
 

@@ -96,3 +96,6 @@ htop
 fastfetch
 pacman-contrib
 usbutils
+smartmontools
+ouch
+lrzip
