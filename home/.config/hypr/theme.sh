@@ -27,7 +27,8 @@ python3 -I "$HOME/.config/hypr/hyprlock-layout.py" 2>/dev/null
 
 # Recargar
 # waybar recarga colors.css sola (reload_style_on_change)
-pkill -x dunst                      # se reabre solo con la siguiente notificación
+# dunst: recargar colores sin cerrarlo (cerrarlo seguido hacía que systemd dejara de arrancarlo)
+pgrep -x dunst >/dev/null && dunstctl reload >/dev/null 2>&1
 hyprctl reload >/dev/null
 pkill -SIGUSR1 -x kitty             # recarga kitty.conf (incluye colors.conf)
 command -v eww >/dev/null && eww reload >/dev/null 2>&1
