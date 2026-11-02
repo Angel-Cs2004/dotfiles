@@ -1,0 +1,8 @@
+# Las notificaciones las maneja dunst.
+# plasma-workspace (dependencia de plasma-integration) registra su propio servicio
+# de notificaciones, que fuera de Plasma se queda colgado. Este archivo, por estar
+# en la carpeta del usuario, tiene prioridad sobre el del sistema.
+[D-BUS Service]
+Name=org.freedesktop.Notifications
+Exec=/usr/bin/dunst
+SystemdService=dunst.service

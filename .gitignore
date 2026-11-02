@@ -42,6 +42,9 @@
 
 /home/.local/*
 !/home/.local/bin/
+!/home/.local/share/
+/home/.local/share/*
+!/home/.local/share/dbus-1/
 
 # --- Archivos generados (se crean al cambiar el fondo; no se versionan) ---
 /home/.config/waybar/colors.css

@@ -168,7 +168,7 @@ link() {   # link <origen en repo> <destino en $HOME>
 
 # Carpetas cuyo CONTENIDO se enlaza archivo por archivo (porque el destino
 # también tiene cosas ajenas al repo). Todo lo demás se enlaza como carpeta.
-DEEP_DIRS=(.config .local .local/bin .config/systemd .config/systemd/user)
+DEEP_DIRS=(.config .config/systemd .config/systemd/user .local .local/bin .local/share .local/share/dbus-1 .local/share/dbus-1/services)
 
 is_deep() { local d; for d in "${DEEP_DIRS[@]}"; do [[ $d == "$1" ]] && return 0; done; return 1; }
 
